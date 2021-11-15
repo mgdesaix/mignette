@@ -1,0 +1,118 @@
+---
+title: "MuSpTest (we need a name!) vignette"
+author: "Matt DeSaix"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{MuSpTest}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+# library(MuSpTest)
+```
+
+# Welcome to MuSpTest
+
+Hello! This is Matt's documentation of the R package that will provide a reproducible way for us (and then others) to quantify and visualize migratory networks. The package does not have an official name yet. This package is a work in progress.
+
+## Step 1) Preparing breeding nodes
+
+### 1.1 Get shapefiles for annual cycle
+
+In the migratory network analyses, the `ebirdst` abundance data is used to delineate the different stages of the annual cycle. This will be important for the downstream analyses that further delineate breeding and wintering nodes in the network. However, if the user already has the appropriate shapefiles, great, you can skip to *1.2*! 
+
+The following code will create shapefiles for breeding, nonbreeding, and migratory stages of the annual cycle from eBird Status and Trends data. Here, I've written code that functions as a wrapper for the `ebirdst()` package and streamlines the process. To do it yourself, please see the [excellent tutorial](https://cornelllabofornithology.github.io/ebirdst/articles/ebirdst-advanced-mapping.html) by Strimas-Mackey, Auer, and Fink.
+
+Prior to doing anything with `ebirdst` data, you will need to download the `ebirdst` package, and then get access to the data. To download the package:
+
+```
+# install.packages("remotes")
+remotes::install_github("CornellLabofOrnithology/ebirdst")
+```
+
+Then, get access to `ebirdst` data at https://ebird.org/st/request. You will receive a key to download `ebirdst` data and you can enter that key in R:
+
+```
+set_ebirdst_access_key("XXXXX")
+```
+
+where ```"XXXXX"``` is the key.
+
+Now, we're in business for using the `MuSpTest` functions. The first function, `get_ebirdst_abd_season()`, downloads species data and creates a multi-layered raster of seasonal abundance data (nonbreeding, prebreeding migration, breeding, and postbreeding migration). Working with these large rasters is a **non-trivial** task and takes time, expect this to take 20-60 minutes depending on the species and your computer.
+
+The function currently takes two inputs, `species` and `path`. `ebirdst` data download is based on the six-letter species code, thus, we use the same naming system. Specify the species of interest for `get_ebirdst_abd_season()` with `species`. `path` specifies the output path for the single multi-layered raster file that is produced, with the default being the current directory. If you want to output to another directory, make sure that directory is already created. The output naming convention for the raster is "[species code].abd_season.tif". 
+
+Below is an example for downloading data for the [Common Yellowthroat](https://ebird.org/species/comyel).
+
+```
+abd_season <- get_ebirdst_abd_season(species = "comyel", path = "./comyel/")
+```
+
+Now that you have the seasonal abundance rasters for your species, it's time to get polygons of the range. This is another time consuming step. The details can be found in the `ebirdst` [tutorial](https://cornelllabofornithology.github.io/ebirdst/articles/ebirdst-advanced-mapping.html), but the gist of it is that we'll distinguish non-zero abundance from non-predicted areas, and delineate nice **smooth** ranges for the different stages. Our function `get_range_smooth()` takes care of this:
+
+```
+range_smooth <- get_range_smooth(abd_season = abd_season, 
+                                  species = "comyel", 
+                                  split_migration = FALSE, 
+                                  show_yearround = FALSE)
+```
+
+Now, to get a single polygon of a portion of the range, it's simple and quick! Here's an example of getting the breeding season range.
+
+```
+species <- "comyel"
+season <- "breeding"
+breed_season <- dplyr::filter(range_smooth,
+                                season == season,
+                                layer == "range")
+                                
+  breed.wgs <- sf::st_transform(breed_season, crs = 4326)
+  out.name.breed.wgs <- paste0(species, ".", season, ".sf.WGS84.ebird")
+
+  sf::st_write(breed.wgs, dsn = '.',
+           layer = out.name.breed.wgs,
+           driver = "ESRI Shapefile")
+```
+
+### 1.2 Making a BGP map
+
+This is modified from Eric Anderson's [Github project](https://github.com/eriqande/make-a-BGP-map) that uses a matrix of individual Q-values to create a raster brick of genetically distinct clusters - the *genoscape*. We will use the breeding polygon created in the last step to specify the breeding range for the genoscape. The input data we need is:
+
+* Individual Q-value matrix
+* Breeding range polygon
+* Lat/lon matrix of individual
+
+
+### 1.3 Convert genoscape to polygons
+
+Using the genoscape rasters we will convert them to polygons, using the handy `scape_to_shape()` function. Specifying the `t` parameter in `scape_to_shape()` sets the threshold for specifying a cell as a given cluster. This may need to be customized for different species and the default is set at `t=0.42`.
+
+## Step 2) Preparing nonbreeding nodes
+
+### 2.1 Subsetting winter ecoregions
+
+For the migratory networks, we will use ecoregions to define the nonbreeding nodes. However, other nonbreeding nodes could be defined by the user instead.
+
+
+### 2.2 Snap points to nonbreeding node
+
+Sometimes individuals are not quite within the nonbreeding nodes. Here, we will make sure all sampled individuals get assigned to the nearest ecoregion.
+
+## Step 3) Specify relative abundance of nodes
+
+We will use `ebirdst` Relative Abundance data to specify the importance of a node to the migratory network. 
+
+
+## Step 4) Run integrated network analysis
+
+Connectivity model
+
+## Step 5) Visualize networks

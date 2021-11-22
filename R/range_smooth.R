@@ -10,7 +10,7 @@
 #' @return A shapefile
 #' @export
 #'
-get_range_smooth <- function(abd_season_proj,
+range_smooth <- function(abd_season_proj,
                              species,
                              ne_land,
                              pred_region,

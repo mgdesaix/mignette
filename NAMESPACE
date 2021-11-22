@@ -2,5 +2,5 @@
 
 export("%>%")
 export(get_ebirdst_abd_season)
-export(get_range_smooth)
+export(range_smooth)
 importFrom(magrittr,"%>%")

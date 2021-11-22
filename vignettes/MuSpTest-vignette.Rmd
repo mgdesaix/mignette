@@ -84,7 +84,7 @@ mollweide <- "+proj=moll +lon_0=-90 +x_0=0 +y_0=0 +ellps=WGS84"
 abd_season_proj <- raster::projectRaster(abd_season, crs = mollweide, method = "ngb")
 ```
 
-Then we will get the prediction area for the abundance area. To do this, we want to `mask` the seasonal abundance to land. We will get land data from the `rnaturalearth` package using the following code. This will serve as *input* into our `get_range_smooth()` function. Depending on the organism's range, you will need to filter continent to the appropriate region. Here, we want both North and South America.
+Then we will get the prediction area for the abundance area. To do this, we want to `mask` the seasonal abundance to land. We will get land data from the `rnaturalearth` package using the following code. This will serve as *input* into our `range_smooth()` function. Depending on the organism's range, you will need to filter continent to the appropriate region. Here, we want both North and South America.
 
 ```
 ne_scale <- 50
@@ -104,11 +104,11 @@ We get the prediction region which will also serve as input into the `get_range_
   pred_region <- raster::calc(abd_season_proj, mean, na.rm = TRUE)
 ```
 
-Now we have all the input data we need to get the polygons of the range. Our function `get_range_smooth()` takes care of this. **NOTE:** Make sure to check the layer names in your input projected seasonal abundance raster, they should follow the convention "nonbreeding", "prebreeding_migration", "breeding", and "postbreeding_migration". If they do not, make sure to rename them accordingly!
+Now we have all the input data we need to get the polygons of the range. Our function `range_smooth()` takes care of this. **NOTE:** Make sure to check the layer names in your input projected seasonal abundance raster, they should follow the convention "nonbreeding", "prebreeding_migration", "breeding", and "postbreeding_migration". If they do not, make sure to rename them accordingly!
 
 ```
 # this fuction can take a while (~15 min.)
-range_smooth <- get_range_smooth(abd_season_proj = abd_season_proj, 
+range_smooth <- range_smooth(abd_season_proj = abd_season_proj, 
                                   species = "comyel", 
                                   ne_land = ne_land_proj,
                                   pred_region = pred_region,
@@ -116,7 +116,7 @@ range_smooth <- get_range_smooth(abd_season_proj = abd_season_proj,
                                   show_yearround = FALSE)
 ```
 
-Extracting a single polygon of a portion of the range is simple and quick! Here's an example of getting the **breeding** season range from the `get_range_smooth()` output.
+Extracting a single polygon of a portion of the range is simple and quick! Here's an example of getting the **breeding** season range from the `range_smooth()` output.
 
 ```
 species <- "comyel"

@@ -1,4 +1,4 @@
-get_season_shape <- function(range_smooth, species,
+season_shape <- function(range_smooth, species,
                              season = "breeding"){
   breed_season <- dplyr::filter(range_smooth,
                                 season == season,

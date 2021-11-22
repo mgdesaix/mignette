@@ -19,7 +19,12 @@ Imports:
     tidyr,
     magrittr,
     stats,
-    sp
+    sp,
+    raster,
+    rgdal,
+    sf,
+    smoothr,
+    units
 Suggests: 
     knitr,
     rmarkdown

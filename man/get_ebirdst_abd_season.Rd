@@ -17,6 +17,3 @@ A multi-layered raster of abundance data by season
 \description{
 Get seasonal abundance data from ebirdst
 }
-\examples{
-comyel_abd_season <- get_ebirdst_abd_season("comyel", "./output/")
-}

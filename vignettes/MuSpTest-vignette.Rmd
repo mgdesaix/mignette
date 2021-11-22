@@ -25,9 +25,9 @@ Hello! This is Matt's documentation of the R package that will provide a reprodu
 
 ## Step 1) Preparing breeding nodes
 
-### 1.1 Get shapefiles for annual cycle
+### 1.1 Delineating seasonal abundance
 
-In the migratory network analyses, the `ebirdst` abundance data is used to delineate the different stages of the annual cycle. This will be important for the downstream analyses that further delineate breeding and wintering nodes in the network. However, if the user already has the appropriate shapefiles, great, you can skip to *1.2*! 
+In the migratory network analyses, the `ebirdst` abundance data is used to delineate the different stages of the annual cycle. This will be important for the downstream analyses that further delineate breeding and wintering nodes in the network. However, if the user already has the appropriate shapefiles, great, you can skip to *1.3*! 
 
 The following code will create shapefiles for breeding, nonbreeding, and migratory stages of the annual cycle from eBird Status and Trends data. Here, I've written code that functions as a wrapper for the `ebirdst()` package and streamlines the process. To do it yourself, please see the [excellent tutorial](https://cornelllabofornithology.github.io/ebirdst/articles/ebirdst-advanced-mapping.html) by Strimas-Mackey, Auer, and Fink.
 
@@ -53,53 +53,115 @@ The function currently takes two inputs, `species` and `path`. `ebirdst` data do
 Below is an example for downloading data for the [Common Yellowthroat](https://ebird.org/species/comyel).
 
 ```
+# This can take a while depending on the species (~20 min.)
 abd_season <- get_ebirdst_abd_season(species = "comyel", path = "./comyel/")
 ```
 
-Now that you have the seasonal abundance rasters for your species, it's time to get polygons of the range. This is another time consuming step. The details can be found in the `ebirdst` [tutorial](https://cornelllabofornithology.github.io/ebirdst/articles/ebirdst-advanced-mapping.html), but the gist of it is that we'll distinguish non-zero abundance from non-predicted areas, and delineate nice **smooth** ranges for the different stages. Our function `get_range_smooth()` takes care of this:
+### 1.2 Generating seasonal polygons
+
+Now that you have the seasonal abundance rasters for your species, it's time to get polygons of the range. This is another time consuming step. The details can be found in the `ebirdst` [tutorial](https://cornelllabofornithology.github.io/ebirdst/articles/ebirdst-advanced-mapping.html), but the gist of it is that we'll distinguish non-zero abundance from non-predicted areas, and delineate nice **smooth** ranges for the different stages. 
+
+We will use the Mollweide projection for our data which is an **equal-area** map projection. To project the seasonal abundance raster do:
 
 ```
-range_smooth <- get_range_smooth(abd_season = abd_season, 
+mollweide <- "+proj=moll +lon_0=-90 +x_0=0 +y_0=0 +ellps=WGS84"
+abd_season_proj <- raster::projectRaster(abd_season, crs = mollweide, method = "ngb")
+```
+
+Then we will get the prediction area for the abundance area. To do this, we want to `mask` the seasonal abundance to land. We will get land data from the `rnaturalearth` package using the following code. This will serve as *input* into our `get_range_smooth()` function. Depending on the organism's range, you will need to filter continent to the appropriate region. Here, we want both North and South America.
+
+```
+ne_scale <- 50
+# land polygon
+ne_land <- ne_countries(scale = ne_scale, returnclass = "sf") %>%
+  dplyr::filter(continent %in% c("North America", "South America")) %>%
+  st_set_precision(1e6) %>%
+  st_union() %>% 
+  st_geometry()
+ne_land_proj <- st_transform(ne_land, crs = mollweide)
+```
+
+We get the prediction region which will also serve as input into the `get_range_smooth()` function:
+
+```
+# prediction region, cells with predicted value in at least one week
+  pred_region <- raster::calc(abd_season_proj, mean, na.rm = TRUE)
+```
+
+Now we have all the input data we need to get the polygons of the range. Our function `get_range_smooth()` takes care of this. **NOTE:** Make sure to check the layer names in your input projected seasonal abundance raster, they should follow the convention "nonbreeding", "prebreeding_migration", "breeding", and "postbreeding_migration". If they do not, make sure to rename them accordingly!
+
+```
+# this fuction can take a while (~15 min.)
+range_smooth <- get_range_smooth(abd_season_proj = abd_season_proj, 
                                   species = "comyel", 
+                                  ne_land = ne_land_proj,
+                                  pred_region = pred_region,
                                   split_migration = FALSE, 
                                   show_yearround = FALSE)
 ```
 
-Now, to get a single polygon of a portion of the range, it's simple and quick! Here's an example of getting the breeding season range.
+Extracting a single polygon of a portion of the range is simple and quick! Here's an example of getting the **breeding** season range from the `get_range_smooth()` output.
 
 ```
 species <- "comyel"
-season <- "breeding"
 breed_season <- dplyr::filter(range_smooth,
-                                season == season,
+                                season == "breeding", 
                                 layer == "range")
                                 
   breed.wgs <- sf::st_transform(breed_season, crs = 4326)
-  out.name.breed.wgs <- paste0(species, ".", season, ".sf.WGS84.ebird")
+  out.name.breed.wgs <- paste0(species, ".", season, ".sf.smooth.WGS84.ebird")
 
   sf::st_write(breed.wgs, dsn = '.',
            layer = out.name.breed.wgs,
            driver = "ESRI Shapefile")
 ```
 
-### 1.2 Making a BGP map
+### 1.3 Create the genoscape
 
-This is modified from Eric Anderson's [Github project](https://github.com/eriqande/make-a-BGP-map) that uses a matrix of individual Q-values to create a raster brick of genetically distinct clusters - the *genoscape*. We will use the breeding polygon created in the last step to specify the breeding range for the genoscape. The input data we need is:
+This is modified from Eric Anderson's [Github project](https://github.com/eriqande/make-a-BGP-map) that uses a matrix of individual Q-values to create a raster brick of genetically distinct clusters - the *genoscape*. If you want to learn the ins and outs of making a **beautiful** genoscape map, check out Eric's awesome [tutorial](https://github.com/eriqande/make-a-BGP-map). We will use the breeding polygon created in the previous step to specify the breeding range for the genoscape. The input data we need is:
 
 * Individual Q-value matrix
 * Breeding range polygon
 * Lat/lon matrix of individual
 
+```
+genoscape_brick <- tess3r::tess3Q_map_rasters(
+  x = Q_matrix, 
+  coord = long_lat_matrix,  
+  map.polygon = breeding,
+  window = extent(breeding)[1:4],
+  resolution = c(300,300), # if you want more cells in your raster, set higher
+  # this next lines need to to be here, but don't do much...
+  col.palette = tess3r::CreatePalette(cluster_colors, length(cluster_colors)), 
+  method = "map.max", 
+  interpol = tess3r::FieldsKrigModel(10),  
+  main = "Ancestry coefficients",
+  xlab = "Longitude", 
+  ylab = "Latitude", 
+  cex = .4
+)
+```
 
-### 1.3 Convert genoscape to polygons
+### 1.4 Convert genoscape to polygons
 
-Using the genoscape rasters we will convert them to polygons, using the handy `scape_to_shape()` function. Specifying the `t` parameter in `scape_to_shape()` sets the threshold for specifying a cell as a given cluster. This may need to be customized for different species and the default is set at `t=0.42`.
+Using the genoscape rasters we will convert them to polygons, using the handy `scape_to_shape()` function. Specifying the `t` parameter in `scape_to_shape()` sets the threshold for specifying a cell as a given cluster. This may need to be customized for different species and the default is set at `t=0.42`. Setting too high of a threshold will create very small breeding nodes, while too low of a threshold will result in large, overlapping breeding nodes. Thus, this process is an art and a science to get the appropriate regions you are interested in. A little overlap is fine and we will show how to deal with that.
+
+Have all of the raster brick genoscape files in a single directory. Then, we can list those files and interate through to create the shapefiles.
+
+```
+brick.files <- list.files("./genoscape_bricks")
+for(i in 1:length(brick.files)){
+  scape_to_shape(brick.files[i],.42,1000,1000,3)
+}
+```
 
 ## Step 2) Preparing nonbreeding nodes
 
+For the migratory networks, we will use ecoregions to define the nonbreeding nodes. However, other nonbreeding nodes could be defined by the user instead. If you already have polygons defining your nonbreeding of nodes interest, then move along to *Step 3*. 
+
 ### 2.1 Subsetting winter ecoregions
 
-For the migratory networks, we will use ecoregions to define the nonbreeding nodes. However, other nonbreeding nodes could be defined by the user instead.
+
 
 
 ### 2.2 Snap points to nonbreeding node

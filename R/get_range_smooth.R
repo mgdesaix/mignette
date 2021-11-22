@@ -1,25 +1,19 @@
-get_range_smooth <- function(abd_season,
+get_range_smooth <- function(abd_season_proj,
                              species,
+                             ne_land,
+                             pred_region,
                              split_migration = FALSE,
                              show_yearround = FALSE){
-  mollweide <- "+proj=moll +lon_0=-90 +x_0=0 +y_0=0 +ellps=WGS84"
-  abd_season_proj <- raster::projectRaster(abd_season, crs = mollweide, method = "ngb")
+
   # determine spatial extent for plotting
-  ext <- ebirdst::calc_full_extent(abd_season_proj)
+  # ext <- ebirdst::calc_full_extent(abd_season_proj)
   # set the plotting order of the seasons
   season_order <- c("postbreeding_migration", "prebreeding_migration",
                     "nonbreeding", "breeding")
-  # prediction region, cells with predicted value in at least one week
-  pred_region <- raster::calc(abd_season_proj, mean, na.rm = TRUE)
-
-  # mask to land area
-  ne_land_buffer <- sf::st_buffer(ne_land, dist = max(raster::res(pred_region)) / 2)
-  pred_region <- raster::mask(pred_region, sf::as_Spatial(ne_land_buffer))
 
   # remove zeros from abundnace layers
   abd_no_zero <- raster::subs(abd_season_proj, data.frame(from = 0, to = NA),
                       subsWithNA = FALSE)
-
   # seasonal layer
   plot_seasons <- raster::intersect(season_order, names(abd_no_zero))
   # legends
@@ -77,14 +71,16 @@ get_range_smooth <- function(abd_season,
     smoothr::smooth(method = "ksmooth", smoothness = 2)
   # clip zeros to land border, range to buffered land to handle coastal species
   range_split <- split(range_smooth, range_smooth$layer)
-
+  # mask to land area
+  ne_land_buffer <- sf::st_buffer(ne_land, dist = max(raster::res(pred_region)) / 2)
+  pred_region <- raster::mask(pred_region, sf::as_Spatial(ne_land_buffer))
   range_smooth <- rbind(
     sf::st_intersection(range_split$range, ne_land_buffer),
     sf::st_intersection(range_split$prediction_area, ne_land))
 
-  return(range_smooth)
-  out.name.range_smooth <- paste0(species, ".all_season.sf")
+  out.name.range_smooth <- paste0(species, ".all_season.smooth.sf")
   sf::st_write(range_smooth, dsn = '.',
            layer = out.name.range_smooth,
            driver = "ESRI Shapefile")
+  return(range_smooth)
 }

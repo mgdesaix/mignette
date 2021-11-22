@@ -10,6 +10,9 @@
 within the DOE project on migratory species connectivity and network
 models**
 
+The sooner we get a decided upon name, the less work it will be for me
+in the future to switch this project over!
+
 The goal of MuSpTest is to streamline the process for researchers to
 develop connectivity models for migratory species. Right now the focus
 is on implementation for the focal bird species of our group, using

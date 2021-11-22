@@ -1,5 +1,5 @@
 Package: MuSpTest
-Title: What the Package Does (One Line, Title Case)
+Title: Creates connectivity models for migratory species
 Version: 0.0.0.9000
 Authors@R: 
     person(given = "Matt",

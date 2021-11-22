@@ -1,3 +1,12 @@
+#' Get seasonal abundance data from ebirdst
+#'
+#' @param species Six-letter code for the bird species from ebirdst
+#' @param path Output directory
+#'
+#' @return A multi-layered raster of abundance data by season
+#' @export
+#'
+#' @examples comyel_abd_season <- get_ebirdst_abd_season("comyel", "./output/")
 get_ebirdst_abd_season <- function(species, path = "./"){
   sp_path <- ebirdst::ebirdst_download(species = species)
   abd <- ebirdst::load_raster(sp_path, product = "abundance")

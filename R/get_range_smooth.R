@@ -1,3 +1,16 @@
+#' Convert seasonable abundance raster to shapefile
+#'
+#' @param abd_season_proj Name of seasonal abundance raster (projected)
+#' @param species Six-letter code for the bird species from ebirdst
+#' @param ne_land Natural Earth land data (same projection as abd_season_proj)
+#' @param pred_region Predicted region
+#' @param split_migration TRUE/FALSE of whether to split spring and fall migration
+#' @param show_yearround TRUE/FALSE of whether to create shapefile for year round abundance
+#'
+#' @return A shapefile
+#' @export
+#'
+#' @examples comyel_range_smooth <- get_range_smooth(abd_season_proj = abd_season_proj, species = "comyel", ne_land = ne_land_proj, pred_region = pred_region, split_migration = FALSE, show_yearround = FALSE)
 get_range_smooth <- function(abd_season_proj,
                              species,
                              ne_land,

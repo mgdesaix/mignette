@@ -25,3 +25,5 @@ Suggests:
     rmarkdown
 VignetteBuilder: knitr
 URL: https://github.com/mgdesaix/MuSpTest
+Depends: 
+    R (>= 2.10)

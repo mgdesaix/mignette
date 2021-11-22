@@ -10,9 +10,6 @@
 #' @return A shapefile
 #' @export
 #'
-#' examples comyel_range_smooth <- get_range_smooth(abd_season_proj = abd_season_proj,
-#' species = "comyel", ne_land = ne_land_proj, pred_region = pred_region,
-#' split_migration = FALSE, show_yearround = FALSE)
 get_range_smooth <- function(abd_season_proj,
                              species,
                              ne_land,

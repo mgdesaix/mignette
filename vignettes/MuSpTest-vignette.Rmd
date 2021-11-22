@@ -24,7 +24,7 @@ knitr::opts_chunk$set(
 
 **NOTE: This is a package in development that is currently for use within the DOE project on migratory species connectivity and network models**
 
-The sooner we get a decided upon name, the less work it will be for me in the future to switch this project over!
+The sooner we decide upon name, the less work it will be in the future to switch this project over!
 
 The goal of MuSpTest is to streamline the process for researchers to develop connectivity models for migratory species. Right now the focus is on implementation for the focal bird species of our group, using genetic population assignment data. We will expand on this in the future.
 
@@ -121,13 +121,13 @@ range_smooth <- range_smooth(abd_season_proj = abd_season_proj,
 Extracting a single polygon of a portion of the range is simple and quick! Here's an example of getting the *breeding* season range from the `range_smooth()` output.
 
 ```
-breed_season <- dplyr::filter(range_smooth,
+breed_smooth <- dplyr::filter(range_smooth,
                                 season == "breeding", 
                                 layer == "range")
                                 
-breed.wgs <- sf::st_transform(breed_season, crs = 4326)
+breed_smooth <- sf::st_transform(breed_smooth, crs = 4326)
 
-sf::st_write(breed.wgs, dsn = '.',
+sf::st_write(breed_smooth, dsn = '.',
           layer = "comyel_breed_smooth",
           driver = "ESRI Shapefile")
 ```
@@ -141,11 +141,25 @@ This is modified from Eric Anderson's [Github project](https://github.com/eriqan
 * Lat/lon matrix of individual
 
 ```
+
+Q_matrix <- comyel_assignment %>%
+  dplyr::select(CA, Midwest, NewEngland, West, Southwest) %>%
+  as.matrix()
+long_lat_matrix <- comyel_assignment %>%
+  dplyr::select(Long, Lat) %>%
+  as.matrix()
+cluster_colors <-  c(
+  CA = "#CC0000",
+  Midwest = "#3399FF",
+  NewEngland = "#9933CC",
+  West = "#009933",
+  Southwest = "#FF6600") 
+  
 genoscape_brick <- tess3r::tess3Q_map_rasters(
   x = Q_matrix, 
   coord = long_lat_matrix,  
-  map.polygon = breeding,
-  window = extent(breeding)[1:4],
+  map.polygon = breed_smooth,
+  window = extent(breed_smooth)[1:4],
   resolution = c(300,300), # if you want more cells in your raster, set higher
   # this next lines need to to be here, but don't do much...
   col.palette = tess3r::CreatePalette(cluster_colors, length(cluster_colors)), 

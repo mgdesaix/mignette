@@ -62,7 +62,7 @@ set_ebirdst_access_key("XXXXX")
 
 where ```"XXXXX"``` is the key.
 
-Now, we're in business for using the `MuSpTest` functions. The first function, `get_ebirdst_abd_season()`, downloads species data and creates a multi-layered raster of seasonal abundance data (nonbreeding, prebreeding migration, breeding, and postbreeding migration). Working with these large rasters is a **non-trivial** task and takes time, expect this to take 20-60 minutes depending on the species and your computer.
+Now, we're in business for using the `MuSpTest` functions. The first function, `get_ebirdst_abd_season()`, downloads species data and creates a multi-layered raster of seasonal abundance data (nonbreeding, prebreeding migration, breeding, and postbreeding migration). Working with these large rasters is a *non-trivial* task and takes time, expect this to take 20-60 minutes depending on the species and your computer.
 
 The function currently takes two inputs, `species` and `path`. `ebirdst` data download is based on the six-letter species code, thus, we use the same naming system. Specify the species of interest for `get_ebirdst_abd_season()` with `species`. `path` specifies the output path for the single multi-layered raster file that is produced, with the default being the current directory. If you want to output to another directory, make sure that directory is already created. The output naming convention for the raster is "[species code].abd_season.tif". 
 
@@ -75,9 +75,9 @@ abd_season <- get_ebirdst_abd_season(species = "comyel", path = "./comyel/")
 
 ### 1.2 Generating seasonal polygons
 
-Now that you have the seasonal abundance rasters for your species, it's time to get polygons of the range. This is another time consuming step. The details can be found in the `ebirdst` [tutorial](https://cornelllabofornithology.github.io/ebirdst/articles/ebirdst-advanced-mapping.html), but the gist of it is that we'll distinguish non-zero abundance from non-predicted areas, and delineate nice **smooth** ranges for the different stages. 
+Now that you have the seasonal abundance rasters for your species, it's time to get polygons of the range. This is another time consuming step. The details can be found in the `ebirdst` [tutorial](https://cornelllabofornithology.github.io/ebirdst/articles/ebirdst-advanced-mapping.html), but the gist of it is that we'll distinguish non-zero abundance from non-predicted areas, and delineate nice *smooth* ranges for the different stages. 
 
-We will use the Mollweide projection for our data which is an **equal-area** map projection. To project the seasonal abundance raster do:
+We will use the Mollweide projection for our data which is an *equal-area* map projection. To project the seasonal abundance raster do:
 
 ```
 mollweide <- "+proj=moll +lon_0=-90 +x_0=0 +y_0=0 +ellps=WGS84"
@@ -107,6 +107,8 @@ We get the prediction region which will also serve as input into the `get_range_
 Now we have all the input data we need to get the polygons of the range. Our function `range_smooth()` takes care of this. **NOTE:** Make sure to check the layer names in your input projected seasonal abundance raster, they should follow the convention "nonbreeding", "prebreeding_migration", "breeding", and "postbreeding_migration". If they do not, make sure to rename them accordingly!
 
 ```
+names(abd_season_proj)
+# names(abd_season_proj) <- c("nonbreeding", "prebreeding_migration", "breeding", "postbreeding_migration")
 # this fuction can take a while (~15 min.)
 range_smooth <- range_smooth(abd_season_proj = abd_season_proj, 
                                   species = "comyel", 
@@ -116,25 +118,23 @@ range_smooth <- range_smooth(abd_season_proj = abd_season_proj,
                                   show_yearround = FALSE)
 ```
 
-Extracting a single polygon of a portion of the range is simple and quick! Here's an example of getting the **breeding** season range from the `range_smooth()` output.
+Extracting a single polygon of a portion of the range is simple and quick! Here's an example of getting the *breeding* season range from the `range_smooth()` output.
 
 ```
-species <- "comyel"
 breed_season <- dplyr::filter(range_smooth,
                                 season == "breeding", 
                                 layer == "range")
                                 
-  breed.wgs <- sf::st_transform(breed_season, crs = 4326)
-  out.name.breed.wgs <- paste0(species, ".", season, ".sf.smooth.WGS84.ebird")
+breed.wgs <- sf::st_transform(breed_season, crs = 4326)
 
-  sf::st_write(breed.wgs, dsn = '.',
-           layer = out.name.breed.wgs,
-           driver = "ESRI Shapefile")
+sf::st_write(breed.wgs, dsn = '.',
+          layer = "comyel_breed_smooth",
+          driver = "ESRI Shapefile")
 ```
 
 ### 1.3 Create the genoscape
 
-This is modified from Eric Anderson's [Github project](https://github.com/eriqande/make-a-BGP-map) that uses a matrix of individual Q-values to create a raster brick of genetically distinct clusters - the *genoscape*. If you want to learn the ins and outs of making a **beautiful** genoscape map, check out Eric's awesome [tutorial](https://github.com/eriqande/make-a-BGP-map). We will use the breeding polygon created in the previous step to specify the breeding range for the genoscape. The input data we need is:
+This is modified from Eric Anderson's [Github project](https://github.com/eriqande/make-a-BGP-map) that uses a matrix of individual Q-values to create a raster brick of genetically distinct clusters - the **genoscape**. If you want to learn the ins and outs of making a *beautiful* genoscape map, check out Eric's awesome [tutorial](https://github.com/eriqande/make-a-BGP-map). We will use the breeding polygon created in the previous step to specify the breeding range for the genoscape. The input data we need is:
 
 * Individual Q-value matrix
 * Breeding range polygon

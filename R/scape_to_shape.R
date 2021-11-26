@@ -25,7 +25,7 @@ scape_to_shape <- function(x, prob_threshold = 0.5, d = 1000, f = 1000, s = 3){
     poly.tmp.fh <- smoothr::fill_holes(poly.tmp.dc,
                                        threshold = units::set_units(f,km^2))
     poly.tmp.smooth <- smoothr::smooth(poly.tmp.fh, method = "ksmooth", smoothness = s)
-    poly.tmp.smooth <- st_as_sf(poly.tmp.smooth, 'Spatial')
+    poly.tmp.smooth <- sf::st_as_sf(poly.tmp.smooth, 'Spatial')
     return(poly.tmp.smooth)
   }
   polygon.list <- lapply(cut.raster.list, rtp)

@@ -10,6 +10,7 @@
 #' @export
 #'
 scape_to_shape <- function(x, prob_threshold = 0.5, d = 1000, f = 1000, s = 3){
+  requireNamespace("sp", quietly = TRUE)
   cut.raster.list <- (raster::cut(x, breaks = c(-Inf, prob_threshold, Inf))) %>%
     as.list()
   rtp <- function(y){

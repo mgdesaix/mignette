@@ -26,7 +26,8 @@ Imports:
     smoothr,
     units,
     ggplot2,
-    utils
+    utils,
+    rgeos
 Suggests: 
     knitr,
     rmarkdown

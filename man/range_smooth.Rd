@@ -14,7 +14,7 @@ range_smooth(
 )
 }
 \arguments{
-\item{abd_season_proj}{Name of seasonal abundance raster (projected)}
+\item{abd_season_proj}{Name of seasonal abundance RasterStack (projected)}
 
 \item{species}{Six-letter code for the bird species from ebirdst}
 
@@ -27,7 +27,7 @@ range_smooth(
 \item{show_yearround}{TRUE/FALSE of whether to create shapefile for year round abundance}
 }
 \value{
-A shapefile
+Sf object for all seasons
 }
 \description{
 Convert seasonable abundance raster to shapefile

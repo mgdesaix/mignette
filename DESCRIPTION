@@ -24,7 +24,9 @@ Imports:
     rgdal,
     sf,
     smoothr,
-    units
+    units,
+    ggplot2,
+    utils
 Suggests: 
     knitr,
     rmarkdown

@@ -1,13 +1,13 @@
 #' Convert seasonable abundance raster to shapefile
 #'
-#' @param abd_season_proj Name of seasonal abundance raster (projected)
+#' @param abd_season_proj Name of seasonal abundance RasterStack (projected)
 #' @param species Six-letter code for the bird species from ebirdst
 #' @param ne_land Natural Earth land data (same projection as abd_season_proj)
 #' @param pred_region Predicted region
 #' @param split_migration TRUE/FALSE of whether to split spring and fall migration
 #' @param show_yearround TRUE/FALSE of whether to create shapefile for year round abundance
 #'
-#' @return A shapefile
+#' @return Sf object for all seasons
 #' @export
 #'
 range_smooth <- function(abd_season_proj,

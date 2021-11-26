@@ -27,7 +27,7 @@ Imports:
     units,
     ggplot2,
     utils,
-    rgeos
+    methods
 Suggests: 
     knitr,
     rmarkdown

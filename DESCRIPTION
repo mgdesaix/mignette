@@ -15,7 +15,6 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.2
 Imports: 
     ebirdst,
-    dplyr,
     tidyr,
     magrittr,
     stats,
@@ -27,7 +26,7 @@ Imports:
     units,
     ggplot2,
     utils,
-    methods
+    dplyr
 Suggests: 
     knitr,
     rmarkdown

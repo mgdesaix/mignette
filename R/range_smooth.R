@@ -1,6 +1,7 @@
 #' Convert seasonable abundance raster to shapefile
 #'
 #' @param abd_season_proj Name of seasonal abundance RasterStack (projected)
+#' @param path Output directory
 #' @param species Six-letter code for the bird species from ebirdst
 #' @param ne_land Natural Earth land data (same projection as abd_season_proj)
 #' @param pred_region Predicted region
@@ -11,6 +12,7 @@
 #' @export
 #'
 range_smooth <- function(abd_season_proj,
+                             path = "./",
                              species,
                              ne_land,
                              pred_region,
@@ -86,7 +88,7 @@ range_smooth <- function(abd_season_proj,
   range_smooth <- rbind(
     sf::st_intersection(sf::st_transform(range_split$range, crs = sf::st_crs(ne_land_buffer)), ne_land_buffer),
     sf::st_intersection(sf::st_transform(range_split$prediction_area, crs = sf::st_crs(ne_land)), ne_land))
-  out.name.range_smooth <- paste0(species, ".all_season.smooth.sf")
+  out.name.range_smooth <- paste0(path, species, ".all_season_smooth")
   sf::st_write(range_smooth, dsn = '.',
            layer = out.name.range_smooth,
            driver = "ESRI Shapefile")

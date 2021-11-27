@@ -123,7 +123,8 @@ Extracting a single polygon of a portion of the range is simple and quick! Here'
 ```
 breed_smooth <- dplyr::filter(range_smooth,
                                 season == "breeding", 
-                                layer == "range")
+                                layer == "range") %>%
+                    dplyr::select(-layer)
                                 
 breed_smooth <- sf::st_transform(breed_smooth, crs = 4326)
 

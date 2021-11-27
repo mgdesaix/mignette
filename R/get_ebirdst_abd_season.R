@@ -3,7 +3,7 @@
 #' @param species Six-letter code for the bird species from ebirdst
 #' @param path Output directory
 #'
-#' @return A multi-layered raster of abundance data by season
+#' @return A SpatRaster object of abundance data by season
 #' @export
 #'
 get_ebirdst_abd_season <- function(species, path = "./"){
@@ -34,21 +34,20 @@ get_ebirdst_abd_season <- function(species, path = "./"){
   }
 
   week_pass <- !is.na(weeks_season)
-  abd <- abd[[which(week_pass)]]
+  abd <- abd[[which(week_pass)]] %>%
+    terra::rast()
   weeks <- weeks[week_pass]
   weeks_season <- weeks_season[week_pass]
   mean_season <- function(s) {
-    raster::mean(abd[[which(weeks_season == s)]], na.rm = T)
+    terra::mean(abd[[which(weeks_season == s)]], na.rm = T)
   }
   seasons <- unique(weeks_season)
 
-  abd_season <- lapply(seasons, mean_season) %>%
-    raster::stack() %>%
-    stats::setNames(seasons)
+  abd_season <- lapply(seasons, mean_season)
+  abd_season <- do.call(c, abd_season)
+  names(abd_season) <- seasons
 
   return(abd_season)
   out.name.abd_season <- paste0(path, species, ".abd_season.tif")
-  raster::writeRaster(abd_season, out.name.abd_season,
-              format = "GTiff", overwrite = T)
-
+  terra::writeRaster(abd_season, out.name.abd_season, overwrite = T)
 }

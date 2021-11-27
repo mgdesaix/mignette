@@ -80,8 +80,8 @@ Now that you have the seasonal abundance rasters for your species, it's time to 
 We will use the Mollweide projection for our data which is an *equal-area* map projection. To project the seasonal abundance raster do:
 
 ```
-mollweide <- "+proj=moll +lon_0=-90 +x_0=0 +y_0=0 +ellps=WGS84"
-abd_season_proj <- raster::projectRaster(abd_season, crs = mollweide, method = "ngb")
+mollweide <- "+proj=moll +lon_0=-90 +x_0=0 +y_0=0 +ellps=WGS84 +datum=WGS84"
+abd_season_proj <- terra::project(abd_season, mollweide, method = "near")
 ```
 
 Then we will get the prediction area for the abundance area. To do this, we want to `mask` the seasonal abundance to land. We will get land data from the `rnaturalearth` package using the following code. This will serve as *input* into our `range_smooth()` function. Depending on the organism's range, you will need to filter continent to the appropriate region. Here, we want both North and South America.
@@ -89,19 +89,19 @@ Then we will get the prediction area for the abundance area. To do this, we want
 ```
 ne_scale <- 50
 # land polygon
-ne_land <- ne_countries(scale = ne_scale, returnclass = "sf") %>%
+ne_land <- rnaturalearth::ne_countries(scale = ne_scale, returnclass = "sf") %>%
   dplyr::filter(continent %in% c("North America", "South America")) %>%
-  st_set_precision(1e6) %>%
-  st_union() %>% 
-  st_geometry()
-ne_land_proj <- st_transform(ne_land, crs = mollweide)
+  sf::st_set_precision(1e6) %>%
+  sf::st_union() %>% 
+  sf::st_geometry()
+ne_land_proj <- sf::st_transform(ne_land, crs = mollweide)
 ```
 
 We get the prediction region which will also serve as input into the `get_range_smooth()` function:
 
 ```
 # prediction region, cells with predicted value in at least one week
-  pred_region <- raster::calc(abd_season_proj, mean, na.rm = TRUE)
+  pred_region <- terra::mean(abd_season_proj,na.rm = TRUE)
 ```
 
 Now we have all the input data we need to get the polygons of the range. Our function `range_smooth()` takes care of this. **NOTE:** Make sure to check the layer names in your input projected seasonal abundance raster, they should follow the convention "nonbreeding", "prebreeding_migration", "breeding", and "postbreeding_migration". If they do not, make sure to rename them accordingly!

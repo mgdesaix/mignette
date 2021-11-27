@@ -6,10 +6,10 @@
 #' @export
 #'
 check_genoscape_overlap <- function(x){
-  origin.list <- sf::st_intersection(x) %>%
-    dplyr::filter(n.overlaps > 1) %>%
-    dplyr::pull(origins)
-  new.list <- utils::relist(x$Cluster[unlist(origin.list)], skeleton = origin.list)
-  return(new.list)
-  print(new.list)
+  genoscape.vec <- terra::vect(x)
+  genoscape.overlap <- terra::relate(genoscape.vec, relation = "overlaps", pairs = T, symmetrical = T)
+  genoscape.overlap <- genoscape.overlap[genoscape.overlap[,3] > 0, c(1,2)]
+  out.pairs <- matrix(x$Cluster[genoscape.overlap], nrow = dim(genoscape.overlap)[1])
+  return(out.pairs)
+  print(out.pairs)
 }

@@ -10,15 +10,18 @@
 #' @export
 #'
 scape_to_shape <- function(x, prob_threshold = 0.5, d = 1000, f = 1000, s = 3){
-  requireNamespace("sp", quietly = TRUE)
-  cut.raster.list <- (raster::cut(x, breaks = c(-Inf, prob_threshold, Inf))) %>%
-    as.list()
+  m <- c(-Inf, prob_threshold, NA)
+  rclmat <- matrix(m, ncol = 3, byrow = TRUE)
+  sf::sf_use_s2(FALSE)
+  genoscape_classified <- terra::classify(x, rclmat, right = FALSE) %>%
+    terra::as.list()
+
   rtp <- function(y){
-    poly.tmp <- raster::rasterToPolygons(y, function(j){j==2},dissolve=T)
+    poly.tmp <- terra::as.polygons(y)
     poly.tmp.cluster <- names(poly.tmp)
     names(poly.tmp) <- "Cluster"
     poly.tmp[[1]] <- poly.tmp.cluster
-    sp::proj4string(poly.tmp) <- sp::CRS("+proj=longlat +datum=WGS84")
+    poly.tmp <- terra::project(poly.tmp, y="+proj=longlat +datum=WGS84")
     poly.tmp <- sf::st_as_sf(poly.tmp)
 
     poly.tmp.dc <- smoothr::drop_crumbs(poly.tmp,
@@ -29,7 +32,7 @@ scape_to_shape <- function(x, prob_threshold = 0.5, d = 1000, f = 1000, s = 3){
     poly.tmp.smooth <- sf::st_as_sf(poly.tmp.smooth, 'Spatial')
     return(poly.tmp.smooth)
   }
-  polygon.list <- lapply(cut.raster.list, rtp)
+  polygon.list <- lapply(genoscape_classified, rtp)
   polygon.sf <- do.call("rbind", polygon.list)
   return(polygon.sf)
 }

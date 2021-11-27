@@ -18,15 +18,13 @@ Imports:
     tidyr,
     magrittr,
     stats,
-    sp,
-    raster,
-    rgdal,
     sf,
     smoothr,
     units,
     ggplot2,
     utils,
-    dplyr
+    dplyr,
+    terra
 Suggests: 
     knitr,
     rmarkdown

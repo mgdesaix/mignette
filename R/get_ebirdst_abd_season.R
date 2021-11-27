@@ -3,7 +3,7 @@
 #' @param species Six-letter code for the bird species from ebirdst
 #' @param path Output directory
 #'
-#' @return A SpatRaster object of abundance data by season
+#' @return A raster stack of abundance data by season
 #' @export
 #'
 get_ebirdst_abd_season <- function(species, path = "./"){
@@ -46,8 +46,7 @@ get_ebirdst_abd_season <- function(species, path = "./"){
   abd_season <- lapply(seasons, mean_season)
   abd_season <- do.call(c, abd_season)
   names(abd_season) <- seasons
-
-  return(abd_season)
   out.name.abd_season <- paste0(path, species, ".abd_season.tif")
   terra::writeRaster(abd_season, out.name.abd_season, overwrite = T)
+  return(abd_season)
 }

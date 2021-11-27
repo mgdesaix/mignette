@@ -69,7 +69,7 @@ The function currently takes two inputs, `species` and `path`. `ebirdst` data do
 Below is an example for downloading data for the [Common Yellowthroat](https://ebird.org/species/comyel).
 
 ```
-# This can take a while depending on the species (~20 min.)
+# This can take a while depending on the species (5-10 min.)
 abd_season <- get_ebirdst_abd_season(species = "comyel", path = "./comyel/")
 ```
 
@@ -109,7 +109,7 @@ Now we have all the input data we need to get the polygons of the range. Our fun
 ```
 names(abd_season_proj)
 # names(abd_season_proj) <- c("nonbreeding", "prebreeding_migration", "breeding", "postbreeding_migration")
-# this fuction can take a while (~15 min.)
+# this fuction can take a while (~10 min.)
 range_smooth <- range_smooth(abd_season_proj = abd_season_proj, 
                                   species = "comyel", 
                                   ne_land = ne_land_proj,

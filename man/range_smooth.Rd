@@ -5,22 +5,25 @@
 \title{Convert seasonable abundance raster to shapefile}
 \usage{
 range_smooth(
-  abd_season_proj,
-  species,
+  abd_season,
+  path = "./",
+  filename,
   ne_land,
-  pred_region,
+  smooth_area = 1000,
   split_migration = FALSE,
   show_yearround = FALSE
 )
 }
 \arguments{
-\item{abd_season_proj}{Name of seasonal abundance RasterStack (projected)}
+\item{abd_season}{Name of seasonal abundance RasterStack (projected)}
 
-\item{species}{Six-letter code for the bird species from ebirdst}
+\item{path}{Output directory}
 
-\item{ne_land}{Natural Earth land data (same projection as abd_season_proj)}
+\item{filename}{Output filename}
 
-\item{pred_region}{Predicted region}
+\item{ne_land}{Natural Earth land data (same projection as abd_season)}
+
+\item{smooth_area}{km^2 region to smooth}
 
 \item{split_migration}{TRUE/FALSE of whether to split spring and fall migration}
 

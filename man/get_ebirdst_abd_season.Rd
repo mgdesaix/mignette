@@ -12,7 +12,7 @@ get_ebirdst_abd_season(species, path = "./")
 \item{path}{Output directory}
 }
 \value{
-A SpatRaster object of abundance data by season
+A raster stack of abundance data by season
 }
 \description{
 Get seasonal abundance data from ebirdst

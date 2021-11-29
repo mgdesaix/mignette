@@ -6,8 +6,6 @@
 \usage{
 range_smooth(
   abd_season,
-  path = "./",
-  filename,
   ne_land,
   smooth_area = 1000,
   split_migration = FALSE,
@@ -16,10 +14,6 @@ range_smooth(
 }
 \arguments{
 \item{abd_season}{Name of seasonal abundance RasterStack (projected)}
-
-\item{path}{Output directory}
-
-\item{filename}{Output filename}
 
 \item{ne_land}{Natural Earth land data (same projection as abd_season)}
 

@@ -1,13 +1,12 @@
 #' Get seasonal abundance data from ebirdst
 #'
 #' @param species Six-letter code for the bird species from ebirdst
-#' @param path Output directory
 #' @param force TRUE/FALSE of redownloading species data from ebirdst
 #'
 #' @return A raster stack of abundance data by season
 #' @export
 #'
-get_ebirdst_abd_season <- function(species, path = "./", force = FALSE){
+get_ebirdst_abd_season <- function(species, force = FALSE){
   sp_path <- ebirdst::ebirdst_download(species = species, force = force)
   abd <- ebirdst::load_raster(sp_path, product = "abundance")
   season_dates <- dplyr::filter(ebirdst::ebirdst_runs, species_code == species) %>%
@@ -50,7 +49,5 @@ get_ebirdst_abd_season <- function(species, path = "./", force = FALSE){
   names(abd_season) <- seasons
   mollweide <- "+proj=moll +lon_0=-90 +x_0=0 +y_0=0 +ellps=WGS84"
   abd_season <- terra::project(abd_season, mollweide, method = "near")
-  out.name.abd_season <- paste0(path, species, ".abd_season.tif")
-  terra::writeRaster(abd_season, out.name.abd_season, overwrite = T)
   return(abd_season)
 }

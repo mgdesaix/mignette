@@ -1,8 +1,6 @@
 #' Convert seasonable abundance raster to shapefile
 #'
 #' @param abd_season Name of seasonal abundance RasterStack (projected)
-#' @param path Output directory
-#' @param filename Output filename
 #' @param ne_land Natural Earth land data (same projection as abd_season)
 #' @param smooth_area km^2 region to smooth
 #' @param split_migration TRUE/FALSE of whether to split spring and fall migration
@@ -12,8 +10,6 @@
 #' @export
 #'
 range_smooth <- function(abd_season,
-                             path = "./",
-                             filename,
                              ne_land,
                              smooth_area = 1000,
                              split_migration = FALSE,
@@ -54,8 +50,5 @@ range_smooth <- function(abd_season,
 
   range_smooth_masked <- sf::st_intersection(sf::st_transform(range_smooth, crs = sf::st_crs(ne_land_buffer)),
                                       ne_land_buffer)
-  sf::st_write(range_smooth, dsn = path,
-           layer = filename,
-           driver = "ESRI Shapefile")
-  return(range_smooth)
+  return(range_smooth_masked)
 }

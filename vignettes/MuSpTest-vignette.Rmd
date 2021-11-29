@@ -177,6 +177,8 @@ terra::writeRaster(terra::rast(genoscape_brick), filename = out.files)
 
 ### 1.5 Genoscape polygons
 
+Using the genoscape rasters we will convert them to polygons, using the handy `scape_to_shape()` function. The `prob_threshold` parameter specifies the value to determine if a raster cell is included in the polygon for that genoscape. This value should be customized for different species to check for overlap of genoscape polygons, which is not desirable. Setting too high of a threshold will create very small breeding nodes, while too low of a threshold will result in large, overlapping breeding nodes.
+
 ```
 genoscape_files <- list.files("./comyel/genoscape", 
                                      full.names = T,
@@ -199,7 +201,6 @@ Check which polygons are overlapping
 ```
 check_genoscape_overlap(genoscape_polygon_sf)
 ```
-
 
 ## Step 2) Preparing nonbreeding nodes
 

@@ -22,8 +22,8 @@ You can install the development version of MuSpTest from
 [GitHub](https://github.com/) with:
 
 ``` r
-# install.packages("devtools")
-devtools::install_github("mgdesaix/MuSpTest")
+# install.packages("remotes")
+remotes::install_github("mgdesaix/MuSpTest", auth_token = "xxx")
 ```
 
 ## Instructions

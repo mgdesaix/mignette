@@ -2,12 +2,13 @@
 #'
 #' @param species Six-letter code for the bird species from ebirdst
 #' @param path Output directory
+#' @param force TRUE/FALSE of redownloading species data from ebirdst
 #'
 #' @return A raster stack of abundance data by season
 #' @export
 #'
-get_ebirdst_abd_season <- function(species, path = "./"){
-  sp_path <- ebirdst::ebirdst_download(species = species)
+get_ebirdst_abd_season <- function(species, path = "./", force = FALSE){
+  sp_path <- ebirdst::ebirdst_download(species = species, force = force)
   abd <- ebirdst::load_raster(sp_path, product = "abundance")
   season_dates <- dplyr::filter(ebirdst::ebirdst_runs, species_code == species) %>%
     dplyr::select(dplyr::setdiff(dplyr::matches("(start)|(end)"),
@@ -36,6 +37,7 @@ get_ebirdst_abd_season <- function(species, path = "./"){
   week_pass <- !is.na(weeks_season)
   abd <- abd[[which(week_pass)]] %>%
     terra::rast()
+
   weeks <- weeks[week_pass]
   weeks_season <- weeks_season[week_pass]
   mean_season <- function(s) {

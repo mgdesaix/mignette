@@ -4,12 +4,14 @@
 \alias{get_ebirdst_abd_season}
 \title{Get seasonal abundance data from ebirdst}
 \usage{
-get_ebirdst_abd_season(species, path = "./")
+get_ebirdst_abd_season(species, path = "./", force = FALSE)
 }
 \arguments{
 \item{species}{Six-letter code for the bird species from ebirdst}
 
 \item{path}{Output directory}
+
+\item{force}{TRUE/FALSE of redownloading species data from ebirdst}
 }
 \value{
 A raster stack of abundance data by season

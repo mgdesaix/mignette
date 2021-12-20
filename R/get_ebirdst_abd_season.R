@@ -16,7 +16,8 @@ get_ebirdst_abd_season <- function(species, force = FALSE){
     tidyr::separate(label, c("season", "start_end"), "_(?=s|e)") %>%
     tidyr::spread(start_end, date) %>%
     dplyr::select(season, start, end) %>%
-    dplyr::mutate(pass = !(is.na(start) | is.na(end)))
+    dplyr::mutate(pass = !(is.na(start) | is.na(end))) %>%
+    dplyr::filter(season != "resident")
 
   weeks <- ebirdst::parse_raster_dates(abd)
   weeks_season <- rep(NA_character_, length(weeks))

@@ -1,6 +1,6 @@
-#' Q-values and metadata for the Common Yellowthroat samples
+#' Q-values and metadata for the Common Yellowthroat breeding samples
 #'
-#' The tibble provides metadata for all of the individuals used to create the genoscape map.
+#' The tibble provides metadata for all of the individuals sampled from the breeding range used to create the genoscape map.
 #' Each individual has a unique identifier, location data, and Q values provided from Structure.
 #'
 #' @format A tibble with 234 rows, 14 columns:
@@ -13,7 +13,7 @@
 #'   \item{West}{Q-values for West cluster}
 #'   \item{Southwest}{Q-values for Southwest cluster}
 #' }
-"comyel_assignment"
+"comyel_breeding_data"
 
 #' Ecoregions of the western hemisphere
 #'
@@ -23,3 +23,18 @@
 #' \describe{
 #' }
 "ecoregions_simple"
+
+#' Metadata for the Common Yellowthroat wintering samples
+#'
+#' The tibble provides metadata for all of the individuals sampled from the wintering range.
+#' Each individual has a unique identifier, location data, winter sampling coordinates, and breeding population assignment from Rubias.
+#'
+#' @format A tibble with 106 rows, 5 columns:
+#' \describe{
+#'   \item{Sample}{Individual identifier}
+#'   \item{Location}{Wintering site}
+#'   \item{Lat}{Latitude of wintering site}
+#'   \item{Long}{Longitude of wintering site}
+#'   \item{BreedingAssignment}{Breeding population the sample was assigned to with Rubias}
+#' }
+"comyel_wintering_data"

@@ -28,5 +28,5 @@ remotes::install_github("mgdesaix/MuSpTest", auth_token = "xxx")
 
 ## Instructions
 
-See the [Creating Migratory Connectivity Networks in
+See the [Creating Migratory Networks in
 R](https://mgdesaix.github.io/connectivity-book/) page for details.

@@ -3,7 +3,7 @@
 #' The tibble provides metadata for all of the individuals sampled from the breeding range used to create the genoscape map.
 #' Each individual has a unique identifier, location data, and Q values provided from Structure.
 #'
-#' @format A tibble with 234 rows, 14 columns:
+#' @format A tibble with 198 rows, 7 columns:
 #' \describe{
 #'   \item{Sample}{Individual identifier}
 #'   \item{Assignment}{Assigned genetic cluster based on Q-values with a threshold of 0.7}

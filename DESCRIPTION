@@ -1,4 +1,4 @@
-Package: MuSpTest
+Package: Mignette
 Title: Creates connectivity models for migratory species
 Version: 0.0.0.9000
 Authors@R: 
@@ -29,6 +29,6 @@ Suggests:
     knitr,
     rmarkdown
 VignetteBuilder: knitr
-URL: https://github.com/mgdesaix/MuSpTest
+URL: https://github.com/mgdesaix/Mignette
 Depends: 
     R (>= 2.10)

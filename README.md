@@ -1,32 +1,27 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# MuSpTest
+# Mignette
 
 <!-- badges: start -->
 <!-- badges: end -->
 
-**NOTE: This is a package in development that is currently for use
-within the DOE project on migratory species connectivity and network
-models**
-
-The goal of MuSpTest is to streamline the process for researchers to
-develop connectivity models for migratory species. Right now the focus
-is on implementation for the focal bird species of our group, using
-genetic population assignment data. We will expand on this in the
+The goal of Mignette is to streamline the process for researchers to
+develop migratory network models for migratory species. Right now the
+focus is on implementation for the focal bird species of our group,
+using population genetic assignment data. We will expand on this in the
 future.
 
 ## Installation
 
-You can install the development version of MuSpTest from
-[GitHub](https://github.com/) with:
+You can install the development version of Mignette from GitHub with:
 
 ``` r
 # install.packages("remotes")
-remotes::install_github("mgdesaix/MuSpTest", auth_token = "xxx")
+remotes::install_github("mgdesaix/Mignette", auth_token = "xxx")
 ```
 
 ## Instructions
 
-See the [Creating Migratory Networks in
+See the [Creating Migratory Connectivity Networks in
 R](https://mgdesaix.github.io/connectivity-book/) page for details.

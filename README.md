@@ -6,7 +6,8 @@
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of Mignette is to streamline the process for researchers to
+The goal of the R package `Mignette` (**Mig**ratory **net**work
+**t**ools **e**nsemble) is to streamline the process for researchers to
 develop migratory network models for migratory species. Right now the
 focus is on implementation for the focal bird species of our group,
 using population genetic assignment data. We will expand on this in the

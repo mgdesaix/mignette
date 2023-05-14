@@ -41,3 +41,27 @@
 #'   \item{BreedingAssignment}{Breeding population the sample was assigned to with Rubias}
 #' }
 "comyel_wintering_data"
+
+#' Metadata for the American Redstart assignment data
+#'
+#' The tibble provides the assignment between three populations on each the breeding and nonbreeding range.
+#' The assignment data was created using genetic population assignment of individuals sampled on the nonbreeding range to genetically-distinct breeding populations.
+#' @format A tibble with 3 rows, 4 columns:
+#' \describe{
+#'   \item{Breeding}{ID of the genetically distinct breeding population}
+#'   \item{CAR}{Number of individuals from the Caribbean ecoregion assigned to the corresponding breeding population}
+#'   \item{AONU}{Number of individuals from the Amazon/Orinoco-Northern Uplands ecoregion assigned to the corresponding breeding population}
+#'   \item{ALM}{Number of individuals from the Atlantic Lowland Mexico ecoregion assigned to the corresponding breeding population}
+#' }
+"amre_assign"
+
+#' Metadata for the American Redstart population relative abundance
+#'
+#' The tibble provides relative abundance for 6 populations.
+#'
+#' @format A tibble with 6 rows, 2 columns:
+#' \describe{
+#'   \item{Population}{ID of the population}
+#'   \item{Relative_abundance}{The relative abundance of the population}
+#' }
+"amre_abundance"

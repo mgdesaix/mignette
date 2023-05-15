@@ -42,7 +42,7 @@
 #' }
 "comyel_wintering_data"
 
-#' Metadata for the American Redstart assignment data
+#' American Redstart assignment data
 #'
 #' The tibble provides the assignment between three populations on each the breeding and nonbreeding range.
 #' The assignment data was created using genetic population assignment of individuals sampled on the nonbreeding range to genetically-distinct breeding populations.
@@ -55,7 +55,7 @@
 #' }
 "amre_assign"
 
-#' Metadata for the American Redstart population relative abundance
+#' American Redstart population relative abundance
 #'
 #' The tibble provides relative abundance for 6 populations.
 #'
@@ -65,3 +65,15 @@
 #'   \item{Relative_abundance}{The relative abundance of the population}
 #' }
 "amre_abundance"
+
+#' American Redstart connectivity
+#'
+#' The matrix provides the connectivity output from the JAGS model with `amre_assign` and `amre_abundance` data
+#'
+#' @format A tibble with 3 rows, 3 columns:
+#' \describe{
+#'   \item{}{Connectivity of nonbreeding population ALM with breeding populations WB, NT, and ST}
+#'   \item{}{Connectivity of nonbreeding population CAR with breeding populations WB, NT, and ST}
+#'   \item{}{Connectivity of nonbreeding population AONU with breeding populations WB, NT, and ST}
+#' }
+"amre_conn"

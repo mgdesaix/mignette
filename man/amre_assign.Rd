@@ -3,7 +3,7 @@
 \docType{data}
 \name{amre_assign}
 \alias{amre_assign}
-\title{Metadata for the American Redstart assignment data}
+\title{American Redstart assignment data}
 \format{
 A tibble with 3 rows, 4 columns:
 \describe{

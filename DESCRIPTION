@@ -24,7 +24,9 @@ Imports:
     ggplot2,
     utils,
     dplyr,
-    terra
+    terra,
+    tibble,
+    ggnewscale
 Suggests: 
     knitr,
     rmarkdown

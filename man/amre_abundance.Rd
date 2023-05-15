@@ -3,7 +3,7 @@
 \docType{data}
 \name{amre_abundance}
 \alias{amre_abundance}
-\title{Metadata for the American Redstart population relative abundance}
+\title{American Redstart population relative abundance}
 \format{
 A tibble with 6 rows, 2 columns:
 \describe{

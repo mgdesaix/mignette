@@ -1,6 +1,7 @@
 #' Create the network for visualizing from the JAGS model
 #'
 #' @param c_matrix Matrix of network connectivity. This is the output from the JAGS run
+#' @param node.types Node types of seasonal stages of annual cycle: "B" for breeding, "W" for wintering/nonbreeding
 #' @param node.names Node names of the connectivity model. These need to be in the same order of the JAGS run.
 #' @param margin Float value
 #' @param connected_tol Float value
@@ -8,10 +9,11 @@
 #' @export
 #'
 #'
-net_create <- function(c_matrix,node.types=c("B","W"),
-                                       node.names=list(),
-                                       margin=0.05,
-                                       connected_tol=0.0001)
+net_create <- function(c_matrix,
+                       node.types=c("B","W"),
+                       node.names=list(),
+                       margin=0.05,
+                       connected_tol=0.0001)
 {
   net<-list()
   if(length(node.names) < 1)

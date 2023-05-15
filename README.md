@@ -24,5 +24,5 @@ remotes::install_github("mgdesaix/mignette")
 
 ## Instructions
 
-See the [Creating Migratory Connectivity Networks in
+See the [Creating Migratory Networks in
 R](https://mgdesaix.github.io/connectivity-book/) page for details.

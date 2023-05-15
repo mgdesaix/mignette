@@ -19,15 +19,15 @@ knitr::opts_chunk$set(
 <!-- badges: end -->
 
 
-The goal of the R package `Mignette` (**Mig**ratory **net**work **t**ools **e**nsemble) is to streamline the process for researchers to develop migratory network models for migratory species. Right now the focus is on implementation for the focal bird species of our group, using population genetic assignment data. We will expand on this in the future.
+The goal of the R package `mignette` (**Mig**ratory **net**work **t**ools **e**nsemble) is to streamline the process for researchers to develop migratory network models for migratory species. Right now the focus is on implementation for the focal bird species of our group, using population genetic assignment data. We will expand on this in the future.
 
 ## Installation
 
-You can install the development version of Mignette from GitHub with:
+You can install the development version of `mignette` from GitHub with:
 
 ``` r
 # install.packages("remotes")
-remotes::install_github("mgdesaix/Mignette")
+remotes::install_github("mgdesaix/mignette")
 ```
 
 ## Instructions

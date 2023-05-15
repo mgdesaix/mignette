@@ -6,7 +6,7 @@
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of the R package `Mignette` (**Mig**ratory **net**work
+The goal of the R package `mignette` (**Mig**ratory **net**work
 **t**ools **e**nsemble) is to streamline the process for researchers to
 develop migratory network models for migratory species. Right now the
 focus is on implementation for the focal bird species of our group,
@@ -15,11 +15,11 @@ future.
 
 ## Installation
 
-You can install the development version of Mignette from GitHub with:
+You can install the development version of `mignette` from GitHub with:
 
 ``` r
 # install.packages("remotes")
-remotes::install_github("mgdesaix/Mignette")
+remotes::install_github("mgdesaix/mignette")
 ```
 
 ## Instructions

@@ -10,7 +10,7 @@ net_draw(network)
 \item{network}{The network created from \code{net_create}}
 }
 \value{
-
+Returns a network plot
 }
 \description{
 Plot the network

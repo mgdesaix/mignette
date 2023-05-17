@@ -4,8 +4,7 @@
 #' @param assignment Tibble of assignment among the populations
 #' @param bnode_names Names of breeding populations/nodes
 #' @param wnode_names Names of nonbreeding populations/nodes
-#'
-#' @return
+#' @return A list of of input data for the JAGS model
 #' @export
 #'
 #'

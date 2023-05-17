@@ -14,7 +14,7 @@ snap_points(x, y, max_dist = 1000)
 \item{max_dist}{Distance threshold}
 }
 \value{
-
+Returns points snapped to polygons
 }
 \description{
 Snap points to polygons

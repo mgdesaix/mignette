@@ -2,8 +2,7 @@
 #'
 #' @param base_filename Character string of file name for the model .txt file that will be saved.
 #' @param model_type Integer value, where 1 indicates genetic data being used, 2 indicates genetic and geolocator data
-#'
-#' @return
+#' @return Returns the file name of the model and saves the model as a text file
 #' @export
 #'
 #'

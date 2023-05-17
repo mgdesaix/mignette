@@ -14,7 +14,7 @@ get_abundance_stats(range_raster, node_poly, node_names)
 \item{node_names}{Names of the nodes}
 }
 \value{
-
+Returns abundance stats for nodes
 }
 \description{
 Get abundance summaries for the different nodes

@@ -3,8 +3,7 @@
 #' @param range_raster SpatRaster of seasonal abundance for the range of interest
 #' @param node_poly Polygons of the nodes
 #' @param node_names Names of the nodes
-#'
-#' @return
+#' @return Returns abundance stats for nodes
 #' @export
 #'
 get_abundance_stats <- function(range_raster, node_poly, node_names){

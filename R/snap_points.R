@@ -3,8 +3,7 @@
 #' @param x Points to snap
 #' @param y Polygons to snap to
 #' @param max_dist Distance threshold
-#'
-#' @return
+#' @return Returns points snapped to polygons
 #' @export
 #'
 snap_points <- function(x, y, max_dist = 1000) {

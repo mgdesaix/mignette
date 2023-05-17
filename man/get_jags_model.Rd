@@ -12,7 +12,7 @@ get_jags_model(base_filename = "jags_genetic_model", model_type = 1)
 \item{model_type}{Integer value, where 1 indicates genetic data being used, 2 indicates genetic and geolocator data}
 }
 \value{
-
+Returns the file name of the model and saves the model as a text file
 }
 \description{
 Create the migratory network model to be run in JAGS

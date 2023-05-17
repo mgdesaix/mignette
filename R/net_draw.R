@@ -1,7 +1,7 @@
 #' Plot the network
 #'
 #' @param network The network created from `net_create`
-#' @return
+#' @return Returns a network plot
 #' @export
 #'
 #'

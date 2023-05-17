@@ -24,7 +24,7 @@ net_create(
 \item{connected_tol}{Float value}
 }
 \value{
-
+Returns a network
 }
 \description{
 Create the network for visualizing from the JAGS model

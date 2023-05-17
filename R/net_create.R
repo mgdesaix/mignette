@@ -5,7 +5,7 @@
 #' @param node.names Node names of the connectivity model. These need to be in the same order of the JAGS run.
 #' @param margin Float value
 #' @param connected_tol Float value
-#' @return
+#' @return Returns a network
 #' @export
 #'
 #'

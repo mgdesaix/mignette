@@ -1,5 +1,5 @@
 Package: mignette
-Title: Creates migratory network models for migratory species
+Title: MIGratory NETwork Tools Ensemble
 Version: 0.0.0.9000
 Authors@R: 
     person(given = "Matt",
@@ -7,7 +7,7 @@ Authors@R:
            role = c("aut", "cre"),
            email = "mgdesaix@gmail.com",
            comment = c(ORCID = "0000-0002-5721-0311"))
-Description: What the package does (one paragraph).
+Description: Creates migratory network models for migratory species. Also provides basic visualization tools for migratory networks.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true

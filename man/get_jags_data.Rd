@@ -16,7 +16,7 @@ get_jags_data(abundance, assignment, bnode_names, wnode_names)
 \item{wnode_names}{Names of nonbreeding populations/nodes}
 }
 \value{
-
+A list of of input data for the JAGS model
 }
 \description{
 Set up the data for the migratory network model in JAGS

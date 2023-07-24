@@ -31,7 +31,7 @@ get_genoscape_abunds <- function(genoscape, abunds, genoscape_names = names(geno
   abunds_br <- terra::crop(abunds, terra::ext(genoscape))
 
   # Get pop size per pixel
-  abunds_br_genoscape <- terra::extract(abunds_br[[1]], genoscape_vect, weights=T, fun=sum, na.rm=TRUE)
+  abunds_br_genoscape <- terra::extract(abunds_br, genoscape_vect, weights=T, fun=sum, na.rm=TRUE)
   genoscape_vect$popsize <- abunds_br_genoscape[,2]
   # Rasterize the genoscape
   genoscape2 <- terra::rasterize(genoscape_vect, genoscape, colnames(terra::values(genoscape_vect))[1])

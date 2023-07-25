@@ -13,7 +13,7 @@ net_create <- function(c_matrix,
                        node.types=c("B","W"),
                        node.names=list(),
                        margin=0.05,
-                       connected_tol=0.0001)
+                       connected_tol=0.001)
 {
   net<-list()
   if(length(node.names) < 1)
@@ -41,7 +41,7 @@ net_create <- function(c_matrix,
                      size=colSums(c_matrix))
   net$nodes<-rbind(bnodes,wnodes)
 
-  mat_edges<-which(c_matrix>connected_tol,arr.ind = 2)
+  mat_edges<-which(c_matrix>connected_tol,arr.ind = TRUE)
   net$edges<-data.frame(from=mat_edges[,1],
                         to=mat_edges[,2],
                         size=apply(mat_edges,MARGIN=1,function(x){c_matrix[x[1],x[2]]}))

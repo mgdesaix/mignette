@@ -17,11 +17,18 @@ get_vector_abunds <- function(populations, abunds, pop_names = populations[[1]][
   terra::crs(populations) <- terra::crs(abunds) <- "+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0"
 
   abunds_nb <- terra::crop(abunds, terra::ext(populations)) # c(-170, -30, 0, 60)
-  abunds_nb_ecoregions <- terra::extract(abunds_nb, populations, weights=T, list=T, na.rm=TRUE)
-  abunds_nb_ecoregions_w <- lapply(abunds_nb_ecoregions, function(x) x[[1]] * x[[2]])
+  abunds_nb_ecoregions <- terra::extract(abunds_nb, populations, weights=T, na.rm=TRUE)
+  abunds_nb_ecoregions_w <- abunds_nb_ecoregions %>%
+    tidyr::drop_na() %>%
+    dplyr::mutate(Relative_abundance = .[[2]]*.[[3]]) %>%
+    dplyr::group_by_at(1) %>%
+    dplyr::summarize(Relative_abundance = sum(Relative_abundance)) %>%
+    dplyr::ungroup() %>%
+    dplyr::select(Relative_abundance)
 
   spp_winterRegions_abunds <- cbind(pop_names,
-                                    unlist(lapply(abunds_nb_ecoregions_w, sum, na.rm=T)))
+                                    abunds_nb_ecoregions_w) %>%
+    as.matrix()
 
 
   colnames(spp_winterRegions_abunds) <- c("Population", "Relative_abundance")

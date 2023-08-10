@@ -9,7 +9,7 @@ net_create(
   node.types = c("B", "W"),
   node.names = list(),
   margin = 0.05,
-  connected_tol = 1e-04
+  connected_tol = 0.001
 )
 }
 \arguments{

@@ -4,12 +4,12 @@
 \alias{get_jags_model}
 \title{Create the migratory network model to be run in JAGS}
 \usage{
-get_jags_model(base_filename = "jags_genetic_model", model_type = 1)
+get_jags_model(base_filename = "jags", model = 1)
 }
 \arguments{
-\item{base_filename}{Character string of file name for the model .txt file that will be saved.}
+\item{base_filename}{Character string of file name for the model .txt file that will be saved. Model integer added as suffix to name.}
 
-\item{model_type}{Integer value, where 1 indicates genetic data being used, 2 indicates genetic and geolocator data}
+\item{model}{Select integer value of assignment model type (1 = known nonbreeding/inferred breeding, 2 = known breeding/inferred nonbreeding, 3 = both types of data provided)}
 }
 \value{
 Returns the file name of the model and saves the model as a text file

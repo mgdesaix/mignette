@@ -4,16 +4,27 @@
 \alias{get_jags_data}
 \title{Set up the data for the migratory network model in JAGS}
 \usage{
-get_jags_data(abundance, assignment, bnode_names, wnode_names)
+get_jags_data(
+  abundance,
+  bnode_names,
+  wnode_names,
+  model,
+  nb2br_assign = NULL,
+  br2nb_assign = NULL
+)
 }
 \arguments{
 \item{abundance}{Tibble of abundance data across populations (model nodes)}
 
-\item{assignment}{Tibble of assignment among the populations}
-
 \item{bnode_names}{Names of breeding populations/nodes}
 
 \item{wnode_names}{Names of nonbreeding populations/nodes}
+
+\item{model}{Select integer value of assignment model type (1 = known nonbreeding/inferred breeding, 2 = known breeding/inferred nonbreeding, 3 = both types of data provided)}
+
+\item{nb2br_assign}{Tibble of assignment for known nonbreeding (columns) to inferred breeding populations (rows)}
+
+\item{br2nb_assign}{Tibble of assignment for known breeding (columns) to inferred nonbreeding populations (columns)}
 }
 \value{
 A list of of input data for the JAGS model

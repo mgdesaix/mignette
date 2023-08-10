@@ -72,8 +72,8 @@
 #'
 #' @format A tibble with 3 rows, 3 columns:
 #' \describe{
-#'   \item{}{Connectivity of nonbreeding population ALM with breeding populations WB, NT, and ST}
-#'   \item{}{Connectivity of nonbreeding population CAR with breeding populations WB, NT, and ST}
-#'   \item{}{Connectivity of nonbreeding population AONU with breeding populations WB, NT, and ST}
+#'   \item{1}{Connectivity of nonbreeding population ALM with breeding populations WB, NT, and ST}
+#'   \item{2}{Connectivity of nonbreeding population CAR with breeding populations WB, NT, and ST}
+#'   \item{3}{Connectivity of nonbreeding population AONU with breeding populations WB, NT, and ST}
 #' }
 "amre_conn"

@@ -12,17 +12,14 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.3
 Imports: 
-    ebirdst,
     tidyr,
     magrittr,
-    stats,
     sf,
     smoothr,
     units,
     ggplot2,
-    utils,
     dplyr,
     terra,
     tibble,

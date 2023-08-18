@@ -7,7 +7,7 @@ Authors@R:
            role = c("aut", "cre"),
            email = "mgdesaix@gmail.com",
            comment = c(ORCID = "0000-0002-5721-0311"))
-Description: Creates migratory network models for migratory species. Also provides basic visualization tools for migratory networks.
+Description: Creating and visualzing migratory network models
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true

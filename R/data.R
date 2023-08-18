@@ -1,22 +1,22 @@
-#' Q-values and metadata for the Common Yellowthroat breeding samples
+#' Q-values and metadata for the American Redstart breeding samples
 #'
 #' The tibble provides metadata for all of the individuals sampled from the breeding range used to create the genoscape map.
 #' Each individual has a unique identifier, location data, and Q values provided from Structure.
 #'
-#' @format A tibble with 198 rows, 10 columns:
+#' @format A tibble with 169 rows, 10 columns:
 #' \describe{
 #'   \item{Sample}{Individual identifier}
-#'   \item{Assignment}{Assigned genetic cluster based on Q-values with a threshold of 0.7}
-#'   \item{State}{State locality of sampled individual}
+#'   \item{Breeding_pop}{Breeding population based on admixture Q-values with a threshold of 0.7}
+#'   \item{Site}{State locality of sampled individual}
 #'   \item{Lat}{Latitude}
-#'   \item{Long}{Longitude}
-#'   \item{CA}{Q-values for California cluster}
-#'   \item{Midwest}{Q-values for Midwest cluster}
-#'   \item{NewEngland}{Q-values for New England cluster}
-#'   \item{West}{Q-values for West cluster}
-#'   \item{Southwest}{Q-values for Southwest cluster}
+#'   \item{Lon}{Longitude}
+#'   \item{BR}{Q-values for Basin Rockies cluster}
+#'   \item{ST}{Q-values for Southern Temperate cluster}
+#'   \item{MP}{Q-values for Maritime Provinces cluster}
+#'   \item{NT}{Q-values for Northern Temperate cluster}
+#'   \item{WB}{Q-values for Western Boreal cluster}
 #' }
-"comyel_breeding_data"
+"amre_breeding_data"
 
 #' Ecoregions of the western hemisphere
 #'
@@ -27,20 +27,20 @@
 #' }
 "ecoregions_simple"
 
-#' Metadata for the Common Yellowthroat wintering samples
+#' Metadata for the American Redstart samples from the stationary nonbreeding range
 #'
-#' The tibble provides metadata for all of the individuals sampled from the wintering range.
-#' Each individual has a unique identifier, location data, winter sampling coordinates, and breeding population assignment from Rubias.
+#' The tibble provides metadata for all of the individuals sampled from the nonbreeding range.
+#' Each individual has a unique identifier, location data, nonbreeding sampling coordinates, and breeding population assignment from the WGSassign software
 #'
-#' @format A tibble with 106 rows, 5 columns:
+#' @format A tibble with 135 rows, 5 columns:
 #' \describe{
 #'   \item{Sample}{Individual identifier}
-#'   \item{Location}{Wintering site}
-#'   \item{Lat}{Latitude of wintering site}
-#'   \item{Long}{Longitude of wintering site}
-#'   \item{BreedingAssignment}{Breeding population the sample was assigned to with Rubias}
+#'   \item{Site}{Nonbreeding sampling site}
+#'   \item{Lat}{Latitude of nonbreeding site}
+#'   \item{Long}{Longitude of nonbreeding site}
+#'   \item{Breeding_assignment}{Breeding population the sample was assigned to}
 #' }
-"comyel_wintering_data"
+"amre_nonbreeding_data"
 
 #' American Redstart assignment data
 #'

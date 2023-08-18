@@ -97,3 +97,17 @@
 #'   \item{Season}{Specifies migratory season of distribution displayed}
 #' }
 "amre_nonbreeding_range"
+
+#' American Redstart genoscape
+#'
+#' SpatRaster of the American Redstart genoscape, data from DeSaix et al. 2023
+#'
+#' @format A SpatRaster of 300 rows, 300 columns, and 5 layers:
+#' \describe{
+#'   \item{WB}{Western Boreal population membership probabilities}
+#'   \item{BR}{Basin Rockies population membership probabilities}
+#'   \item{NT}{Northern Temperate population membership probabilities}
+#'   \item{ST}{Southern Temperate population membership probabilities}
+#'   \item{MP}{Maritime Provinces population membership probabilities}
+#' }
+"amre_genoscape"

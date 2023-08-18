@@ -10,7 +10,7 @@ get_jags_model <- function(base_filename = "jags", model = 1){
   stopifnot("Not a valid assignment model choice - must be integers 1, 2, or 3" = model %in% c(1,2,3))
 
   if(model == 1){
-    base_filename <- paste0(base_filename, ".model_1")
+    base_filename <- paste0(base_filename, ".model_1.txt")
     ################################################################################
     # JAGS model 1
     ############################################################################
@@ -34,7 +34,7 @@ get_jags_model <- function(base_filename = "jags", model = 1){
     ############################################################################
     ################################################################################
 
-    sink(file=paste0(base_filename,".txt"))
+    sink(file=base_filename)
     cat("
         model{
 
@@ -111,9 +111,11 @@ get_jags_model <- function(base_filename = "jags", model = 1){
         ", fill=TRUE)
     sink()
   } else if(model == 2){
-    base_filename <- paste0(base_filename, ".model_2")
+    base_filename <- paste0(base_filename, ".model_2.txt")
+
+    ## NEED TO ADD MODEL
   } else{
-    base_filename <- paste0(base_filename, ".model_3")
+    base_filename <- paste0(base_filename, ".model_3.txt")
     ################################################################################
     #JAGS model 3
     ############################################################################
@@ -138,7 +140,7 @@ get_jags_model <- function(base_filename = "jags", model = 1){
     ############################################################################
     ################################################################################
 
-    sink(file=paste0(base_filename,".txt"))
+    sink(file=base_filename)
     cat("
     model{
 

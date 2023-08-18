@@ -77,3 +77,23 @@
 #'   \item{3}{Connectivity of nonbreeding population AONU with breeding populations WB, NT, and ST}
 #' }
 "amre_conn"
+
+#' American Redstart breeding range
+#'
+#' SpatVector object of the American redstart breeding range
+#'
+#' @format A SpatVector with 1 geometry, 1 attribute:
+#' \describe{
+#'   \item{Season}{Specifies migratory season of distribution displayed}
+#' }
+"amre_breeding_range"
+
+#' American Redstart nonbreeding range
+#'
+#' SpatVector object of the American redstart nonbreeding range
+#'
+#' @format A SpatVector with 1 geometry, 1 attribute:
+#' \describe{
+#'   \item{Season}{Specifies migratory season of distribution displayed}
+#' }
+"amre_nonbreeding_range"

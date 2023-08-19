@@ -77,37 +77,3 @@
 #'   \item{3}{Connectivity of nonbreeding population AONU with breeding populations WB, NT, and ST}
 #' }
 "amre_conn"
-
-#' American Redstart breeding range
-#'
-#' SpatVector object of the American redstart breeding range
-#'
-#' @format A SpatVector with 1 geometry, 1 attribute:
-#' \describe{
-#'   \item{Season}{Specifies migratory season of distribution displayed}
-#' }
-"amre_breeding_range"
-
-#' American Redstart nonbreeding range
-#'
-#' SpatVector object of the American redstart nonbreeding range
-#'
-#' @format A SpatVector with 1 geometry, 1 attribute:
-#' \describe{
-#'   \item{Season}{Specifies migratory season of distribution displayed}
-#' }
-"amre_nonbreeding_range"
-
-#' American Redstart genoscape
-#'
-#' SpatRaster of the American Redstart genoscape, data from DeSaix et al. 2023
-#'
-#' @format A SpatRaster of 300 rows, 300 columns, and 5 layers:
-#' \describe{
-#'   \item{WB}{Western Boreal population membership probabilities}
-#'   \item{BR}{Basin Rockies population membership probabilities}
-#'   \item{NT}{Northern Temperate population membership probabilities}
-#'   \item{ST}{Southern Temperate population membership probabilities}
-#'   \item{MP}{Maritime Provinces population membership probabilities}
-#' }
-"amre_genoscape"

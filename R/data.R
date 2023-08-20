@@ -46,23 +46,25 @@
 #'
 #' The tibble provides the assignment between three populations on each the breeding and nonbreeding range.
 #' The assignment data was created using genetic population assignment of individuals sampled on the nonbreeding range to genetically-distinct breeding populations.
-#' @format A tibble with 3 rows, 4 columns:
+#' @format A tibble with 5 rows, 6 columns:
 #' \describe{
 #'   \item{Breeding}{ID of the genetically distinct breeding population}
 #'   \item{CAR}{Number of individuals from the Caribbean ecoregion assigned to the corresponding breeding population}
 #'   \item{AONU}{Number of individuals from the Amazon/Orinoco-Northern Uplands ecoregion assigned to the corresponding breeding population}
 #'   \item{ALM}{Number of individuals from the Atlantic Lowland Mexico ecoregion assigned to the corresponding breeding population}
+#'   \item{HCA}{Number of individuals from the Highland Central America ecoregion assigned to the corresponding breeding population}
+#'   \item{LCA}{Number of individuals from the Lowland Central America ecoregion assigned to the corresponding breeding population}
 #' }
 "amre_assign"
 
 #' American Redstart population relative abundance
 #'
-#' The tibble provides relative abundance for 6 populations.
+#' The tibble provides relative abundance for all nodes (breeding and nonbreeding)
 #'
-#' @format A tibble with 6 rows, 2 columns:
+#' @format A tibble with 10 rows, 2 columns:
 #' \describe{
-#'   \item{Population}{ID of the population}
-#'   \item{Relative_abundance}{The relative abundance of the population}
+#'   \item{Population}{ID of the node}
+#'   \item{Relative_abundance}{The relative abundance of the node}
 #' }
 "amre_abundance"
 
@@ -70,10 +72,12 @@
 #'
 #' The matrix provides the connectivity output from the JAGS model with `amre_assign` and `amre_abundance` data
 #'
-#' @format A tibble with 3 rows, 3 columns:
+#' @format A matrix with 5 rows, 5 columns:
 #' \describe{
-#'   \item{1}{Connectivity of nonbreeding population ALM with breeding populations WB, NT, and ST}
-#'   \item{2}{Connectivity of nonbreeding population CAR with breeding populations WB, NT, and ST}
-#'   \item{3}{Connectivity of nonbreeding population AONU with breeding populations WB, NT, and ST}
+#'   \item{ALM}{Connectivity of nonbreeding population ALM with the breeding populations}
+#'   \item{LCA}{Connectivity of nonbreeding population LCA with the breeding populations}
+#'   \item{HCA}{Connectivity of nonbreeding population HCA with the breeding populations}
+#'   \item{CAR}{Connectivity of nonbreeding population CAR with the breeding populations}
+#'   \item{AONU}{Connectivity of nonbreeding population AONU with the breeding populations}
 #' }
 "amre_conn"

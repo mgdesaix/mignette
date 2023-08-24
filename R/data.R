@@ -44,7 +44,7 @@
 
 #' American Redstart assignment data
 #'
-#' The tibble provides the assignment between three populations on each the breeding and nonbreeding range.
+#' The tibble provides the number of assigned individuals from five nonbreeding ecoregions to the five breeding populations.
 #' The assignment data was created using genetic population assignment of individuals sampled on the nonbreeding range to genetically-distinct breeding populations.
 #' @format A tibble with 5 rows, 6 columns:
 #' \describe{

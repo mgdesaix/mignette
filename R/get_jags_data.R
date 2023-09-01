@@ -2,7 +2,7 @@
 #'
 #' @param abundance Tibble of abundance data across populations (model nodes)
 #' @param nb2br_assign Tibble of assignment for known nonbreeding (columns) to inferred breeding populations (rows)
-#' @param br2nb_assign Tibble of assignment for known breeding (columns) to inferred nonbreeding populations (columns)
+#' @param br2nb_assign Tibble of assignment for known breeding (columns) to inferred nonbreeding populations (rows)
 #' @param bnode_names Names of breeding populations/nodes
 #' @param wnode_names Names of nonbreeding populations/nodes
 #' @param model Select integer value of assignment model type (1 = known nonbreeding/inferred breeding, 2 = known breeding/inferred nonbreeding, 3 = both types of data provided)

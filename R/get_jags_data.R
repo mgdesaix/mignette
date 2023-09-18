@@ -15,6 +15,7 @@ get_jags_data <- function(abundance, bnode_names, wnode_names, model,
   stopifnot("`bnode_names` must correspond to values in first column of `abundance` tibble" = bnode_names %in% dplyr::pull(abundance, 1))
   stopifnot("`wnode_names` must correspond to values in first column of `abundance` tibble" = wnode_names %in% dplyr::pull(abundance, 1))
   stopifnot("Not a valid assignment model choice - must be integers 1, 2, or 3" = model %in% c(1,2,3))
+
   if (model == 1 | model == 3){
     stopifnot("No assignment file of nonbreeding to breeding (`nb2br_assign`) provided!" = !is.null(nb2br_assign))
     stopifnot("First column of `nb2br_assign` tibble must correspond to values in `bnode_names`" = dplyr::pull(nb2br_assign, 1) %in% bnode_names)
@@ -124,6 +125,9 @@ get_jags_data <- function(abundance, bnode_names, wnode_names, model,
       dplyr::select(wnode_names[which(wnode_names %in% colnames(nb2br_assign)[-1])]) %>%
       as.matrix()
 
+    stopifnot("Please remove columns from nb2br_assign with all 0s" = length(which(colSums(dta_conn_x_temp) == 0)) == 0)
+    stopifnot("Please remove rows from nb2br_assign with all 0s" = length(which(rowSums(dta_conn_x_temp) == 0)) == 0)
+
     dta_conn_x <- matrix(0, nrow = length(bnode_names), ncol = length(wnode_names))
     rownames(dta_conn_x) <- bnode_names
     colnames(dta_conn_x) <- wnode_names
@@ -135,6 +139,9 @@ get_jags_data <- function(abundance, bnode_names, wnode_names, model,
       tibble::column_to_rownames(colnames(br2nb_assign)[1]) %>%
       dplyr::select(wnode_names[which(wnode_names %in% colnames(br2nb_assign)[-1])]) %>%
       as.matrix()
+    # error for rows and columns if they have all 0s
+    stopifnot("Please remove columns from br2nb_assign with all 0s" = length(which(colSums(dta_conn_glx_temp) == 0)) == 0)
+    stopifnot("Please remove rows from br2nb_assign with all 0s" = length(which(rowSums(dta_conn_glx_temp) == 0)) == 0)
 
     dta_conn_glx <- matrix(0, nrow = length(bnode_names), ncol = length(wnode_names))
     rownames(dta_conn_glx) <- bnode_names

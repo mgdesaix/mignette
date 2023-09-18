@@ -6,7 +6,7 @@
 #' @export
 #'
 #'
-get_jags_model <- function(base_filename = "jags", model = 1){
+get_jags_model <- function(base_filename = "jags", model){
   stopifnot("Not a valid assignment model choice - must be integers 1, 2, or 3" = model %in% c(1,2,3))
 
   if(model == 1){

@@ -18,12 +18,12 @@ get_jags_data <- function(abundance, bnode_names, wnode_names, model,
   if (model == 1 | model == 3){
     stopifnot("No assignment file of nonbreeding to breeding (`nb2br_assign`) provided!" = !is.null(nb2br_assign))
     stopifnot("First column of `nb2br_assign` tibble must correspond to values in `bnode_names`" = dplyr::pull(nb2br_assign, 1) %in% bnode_names)
-    stopifnot("Column names of `nb2br_assign` tibble starting with column 2 must be in `wnode_names`" = colnames(nb2br_assign)[2:length(colnames(nb2br_assign))] %in% wnode_names)
+    stopifnot("Column names of `nb2br_assign` tibble starting with column 2 must be in `wbode_names`" = colnames(nb2br_assign)[2:length(colnames(nb2br_assign))] %in% wnode_names)
   }
   if (model == 2 | model == 3){
     stopifnot("No assignment file of breeding to nonbreeding (`br2nb_assign`) provided!" = !is.null(br2nb_assign))
-    stopifnot("First column of `br2nb_assign` tibble must correspond to values in `wnode_names`" = dplyr::pull(br2nb_assign, 1) %in% wnode_names)
-    stopifnot("Column names of `br2nb_assign` tibble starting with column 2 must be in `bnode_names`" = colnames(br2nb_assign)[2:length(colnames(br2nb_assign))] %in% bnode_names)
+    stopifnot("First column of `br2nb_assign` tibble must correspond to values in `bnode_names`" = dplyr::pull(br2nb_assign, 1) %in% bnode_names)
+    stopifnot("Column names of `br2nb_assign` tibble starting with column 2 must be in `wbode_names`" = colnames(br2nb_assign)[2:length(colnames(br2nb_assign))] %in% wnode_names)
   }
 
   ## Abundance stats used in all models
@@ -40,12 +40,18 @@ get_jags_data <- function(abundance, bnode_names, wnode_names, model,
     dplyr::pull(rel_ab)
   ### Model 1:
   ## Known/sampled nonbreeding, inferred breeding origin (e.g. genetics)
-  if (model == 1) {
+  if (model == 1){
     dta_conn_x <- nb2br_assign %>%
       dplyr::arrange(factor(.[[1]], levels = bnode_names)) %>%
       tibble::column_to_rownames(colnames(nb2br_assign)[1]) %>%
-      dplyr::select(dplyr::all_of(wnode_names)) %>%
+      dplyr::select(wnode_names[which(wnode_names %in% colnames(nb2br_assign)[-1])]) %>%
       as.matrix()
+    # error for rows and columns if they have all 0s
+    stopifnot("Please remove columns from nb2br_assign with all 0s" = length(which(colSums(dta_conn_x) == 0)) == 0)
+    stopifnot("Please remove rows from nb2br_assign with all 0s" = length(which(rowSums(dta_conn_x) == 0)) == 0)
+    # error if mismatch in number of nodes and names
+    stopifnot("Number of breeding nodes different in bnode_names and nb2br_assign rows" = length(bnode_names) == nrow(dta_conn_x))
+    stopifnot("Number of nonbreeding nodes different in wnode_names and nb2br_assign columns" = length(wnode_names) == ncol(dta_conn_x))
 
     obs_bnode_n<-length(bnode_names)
     obs_wnode_n<-length(wnode_names)
@@ -56,33 +62,39 @@ get_jags_data <- function(abundance, bnode_names, wnode_names, model,
                       obs_wnode_n=obs_wnode_n,
                       wnode_gendat=wnode_gendat,
                       bnode_gendat=bnode_gendat,
-                       dta_conn_x=dta_conn_x,
-                       dta_conn_y=dta_conn_x,
-                       dta_conn_colsum=colSums(dta_conn_x),
-                       dta_conn_rowsum=rowSums(dta_conn_x),
-                       dta_conn_effort=colSums(dta_conn_x)/sum(dta_conn_x),
-                       dta_conn_nb.est.mn= pop.b,
-                       dta_conn_nb.est.sum= sum(pop.b),
-                       dta_conn_nw.est.mn= pop.w,
-                       dta_conn_nw.est.sum= sum(pop.w),
-                       known_connected=arrayInd(which(dta_conn_x>0),.dim=dim(dta_conn_x)),
-                       known_n=sum(dta_conn_x>0),
-                       unknown_connected=arrayInd(which(dta_conn_x==0),.dim=dim(dta_conn_x)),
-                       unknown_n=sum(dta_conn_x==0)
+                      dta_conn_x=dta_conn_x,
+                      dta_conn_y=dta_conn_x,
+                      dta_conn_colsum=colSums(dta_conn_x),
+                      dta_conn_rowsum=rowSums(dta_conn_x),
+                      dta_conn_effort=colSums(dta_conn_x)/sum(dta_conn_x),
+                      dta_conn_nb.est.mn= pop.b,
+                      dta_conn_nb.est.sum= sum(pop.b),
+                      dta_conn_nw.est.mn= pop.w,
+                      dta_conn_nw.est.sum= sum(pop.w),
+                      known_connected=arrayInd(which(dta_conn_x>0),.dim=dim(dta_conn_x)),
+                      known_n=sum(dta_conn_x>0),
+                      unknown_connected=arrayInd(which(dta_conn_x==0),.dim=dim(dta_conn_x)),
+                      unknown_n=sum(dta_conn_x==0)
     )
   } else if (model == 2){
     ### Model 2:
     ## Known/sampled breeding, inferred nonbreeding origin (e.g. geolocators)
     dta_conn_glx <- br2nb_assign %>%
-      dplyr::arrange(factor(.[[1]], levels = wnode_names)) %>%
-      tibble::column_to_rownames(colnames(nb2br_assign)[1]) %>%
-      dplyr::select(dplyr::all_of(bnode_names)) %>%
+      dplyr::arrange(factor(.[[1]], levels = bnode_names)) %>%
+      tibble::column_to_rownames(colnames(br2nb_assign)[1]) %>%
+      dplyr::select(wnode_names[which(wnode_names %in% colnames(br2nb_assign)[-1])]) %>%
       as.matrix()
+    # error for rows and columns if they have all 0s
+    stopifnot("Please remove columns from br2nb_assign with all 0s" = length(which(colSums(dta_conn_glx) == 0)) == 0)
+    stopifnot("Please remove rows from br2nb_assign with all 0s" = length(which(rowSums(dta_conn_glx) == 0)) == 0)
+    # error if mismatch in number of nodes and names
+    stopifnot("Number of breeding nodes different in bnode_names and br2nb_assign rows" = length(bnode_names) == nrow(dta_conn_glx))
+    stopifnot("Number of nonbreeding nodes different in wnode_names and br2nb_assign columns" = length(wnode_names) == ncol(dta_conn_glx))
 
     obs_bnode_n<-length(bnode_names)
     obs_wnode_n<-length(wnode_names)
-    wnode_gldat<-which(rownames(dta_conn_glx) %in% wnode_names)
-    bnode_gldat<-which(colnames(dta_conn_glx) %in% bnode_names)
+    wnode_gldat<-which(colnames(dta_conn_glx) %in% wnode_names)
+    bnode_gldat<-which(rownames(dta_conn_glx) %in% bnode_names)
 
     jags.data <- list(obs_bnode_n=obs_bnode_n,
                       obs_wnode_n=obs_wnode_n,
@@ -92,11 +104,11 @@ get_jags_data <- function(abundance, bnode_names, wnode_names, model,
                       dta_conn_gly=dta_conn_glx,
                       dta_conn_glcolsum=colSums(dta_conn_glx),
                       dta_conn_glrowsum=rowSums(dta_conn_glx),
-                      dta_conn_gleffort=colSums(dta_conn_glx)/sum(dta_conn_glx),
-                      dta_conn_nb.est.mn= pop.b,
-                      dta_conn_nb.est.sum= sum(pop.b),
-                      dta_conn_nw.est.mn= pop.w,
-                      dta_conn_nw.est.sum= sum(pop.w),
+                      dta_conn_gleffort=rowSums(dta_conn_glx)/sum(dta_conn_glx),
+                      dta_conn_nb.est.mn=pop.b,
+                      dta_conn_nb.est.sum=sum(pop.b),
+                      dta_conn_nw.est.mn=pop.w,
+                      dta_conn_nw.est.sum=sum(pop.w),
                       known_connected=arrayInd(which(dta_conn_glx>0),.dim=dim(dta_conn_glx)),
                       known_n=sum(dta_conn_glx>0),
                       unknown_connected=arrayInd(which(dta_conn_glx==0),.dim=dim(dta_conn_glx)),
@@ -106,23 +118,35 @@ get_jags_data <- function(abundance, bnode_names, wnode_names, model,
     ### Model 3:
     ## Known/sampled nonbreeding, inferred breeding origin (e.g. genetics) AND
     ## data for known/sampled breeding, inferred nonbreeding origin (e.g. geolocators)
-    dta_conn_x <- nb2br_assign %>%
+    dta_conn_x_temp <- nb2br_assign %>%
       dplyr::arrange(factor(.[[1]], levels = bnode_names)) %>%
       tibble::column_to_rownames(colnames(nb2br_assign)[1]) %>%
-      dplyr::select(dplyr::all_of(wnode_names)) %>%
+      dplyr::select(wnode_names[which(wnode_names %in% colnames(nb2br_assign)[-1])]) %>%
       as.matrix()
 
-    wnode_gendat<-which(colnames(dta_conn_x) %in% wnode_names)
-    bnode_gendat<-which(rownames(dta_conn_x) %in% bnode_names)
+    dta_conn_x <- matrix(0, nrow = length(bnode_names), ncol = length(wnode_names))
+    rownames(dta_conn_x) <- bnode_names
+    colnames(dta_conn_x) <- wnode_names
+    dta_conn_x[rownames(dta_conn_x_temp), colnames(dta_conn_x_temp)] <- dta_conn_x_temp
 
-    dta_conn_glx <- br2nb_assign %>%
-      dplyr::arrange(factor(.[[1]], levels = wnode_names)) %>%
-      tibble::column_to_rownames(colnames(nb2br_assign)[1]) %>%
-      dplyr::select(dplyr::all_of(bnode_names)) %>%
+    # br2nb_assign data
+    dta_conn_glx_temp <- br2nb_assign %>%
+      dplyr::arrange(factor(.[[1]], levels = bnode_names)) %>%
+      tibble::column_to_rownames(colnames(br2nb_assign)[1]) %>%
+      dplyr::select(wnode_names[which(wnode_names %in% colnames(br2nb_assign)[-1])]) %>%
       as.matrix()
 
-    wnode_gldat<-which(rownames(dta_conn_glx) %in% wnode_names)
-    bnode_gldat<-which(colnames(dta_conn_glx) %in% bnode_names)
+    dta_conn_glx <- matrix(0, nrow = length(bnode_names), ncol = length(wnode_names))
+    rownames(dta_conn_glx) <- bnode_names
+    colnames(dta_conn_glx) <- wnode_names
+    dta_conn_glx[rownames(dta_conn_glx_temp), colnames(dta_conn_glx_temp)] <- dta_conn_glx_temp
+
+    # get node indices
+    wnode_gendat<- which(wnode_names %in% colnames(dta_conn_x_temp))
+    bnode_gendat<- which(bnode_names %in% rownames(dta_conn_x_temp))
+
+    wnode_gldat <- which(wnode_names %in% colnames(dta_conn_glx_temp))
+    bnode_gldat <- which(bnode_names %in% rownames(dta_conn_glx_temp))
 
     obs_bnode_n<-length(bnode_names)
     obs_wnode_n<-length(wnode_names)
@@ -131,26 +155,27 @@ get_jags_data <- function(abundance, bnode_names, wnode_names, model,
                       obs_wnode_n=obs_wnode_n,
                       wnode_gendat=wnode_gendat,
                       bnode_gendat=bnode_gendat,
-                      bnode_gldat=bnode_gldat,
                       wnode_gldat=wnode_gldat,
+                      bnode_gldat=bnode_gldat,
+                      #add array with breeding nodes with data-genetic + array of bnodes with gl data
                       dta_conn_x=dta_conn_x,
                       dta_conn_y=dta_conn_x,
                       dta_conn_glx=dta_conn_glx,
                       dta_conn_gly=dta_conn_glx,
-                      dta_conn_effort=colSums(dta_conn_x)/sum(dta_conn_x), #genetic effort
                       dta_conn_colsum=colSums(dta_conn_x),
                       dta_conn_rowsum=rowSums(dta_conn_x),
-                      dta_conn_gleffort=rowSums(dta_conn_glx)/sum(dta_conn_glx), #gl effort
                       dta_conn_glcolsum=colSums(dta_conn_glx),
                       dta_conn_glrowsum=rowSums(dta_conn_glx),
+                      dta_conn_effort=colSums(dta_conn_x)/sum(dta_conn_x), #genetic effort
+                      dta_conn_gleffort=rowSums(dta_conn_glx)/sum(dta_conn_glx), #gl effort
                       dta_conn_nb.est.mn= pop.b,
                       dta_conn_nb.est.sum= sum(pop.b),
                       dta_conn_nw.est.mn= pop.w,
                       dta_conn_nw.est.sum= sum(pop.w),
-                      known_connected=arrayInd(which(dta_conn_x>0),.dim=dim(dta_conn_x)),
-                      known_n=sum(dta_conn_x>0),
-                      unknown_connected=arrayInd(which(dta_conn_x==0),.dim=dim(dta_conn_x)),
-                      unknown_n=sum(dta_conn_x==0)
+                      known_connected=arrayInd(which(dta_conn_x>0 | dta_conn_glx>0),.dim=dim(dta_conn_x)),
+                      known_n=sum(dta_conn_x>0 | dta_conn_glx>0),
+                      unknown_connected=arrayInd(which(dta_conn_x==0 & dta_conn_glx==0),.dim=dim(dta_conn_x)),
+                      unknown_n=sum(dta_conn_x==0 & dta_conn_glx==0)
     )
   }
   return(jags.data)

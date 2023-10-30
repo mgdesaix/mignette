@@ -12,7 +12,7 @@
 #' @param n.burnin Integer value of jagsUI::autojags() parameter n.burnin
 #' @param n.chains Integer value of jagsUI::autojags() parameter n.chains
 #' @param parallel Logical value of jagsUI::autojags() paramter parallel
-#' @return A list of of input data for the JAGS model
+#' @return A list of 1) "conn_g" is a dataframe of the connectivity matrix with node names, 2) "jags_out" is a list of the full standard jagsUI::autojags() output
 #' @export
 #'
 #'

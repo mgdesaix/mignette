@@ -11,7 +11,7 @@ get_raster_abunds(populations, abunds, pop_names = names(populations))
 
 \item{abunds}{SpatRaster object of ebirdst abundance}
 
-\item{pop_names}{Character vector of raster layer names manually provided. By default the function obtains this from \code{names(raster)}.}
+\item{pop_names}{Character vector of raster layer names manually provided. By default the function obtains this from \code{names(populations)}.}
 }
 \value{
 A two-column matrix with population names in the first column and relative abundance values in the second column

@@ -2,7 +2,7 @@
 #'
 #' @param populations SpatRaster object of layers with values delineating membership probabilities to a population
 #' @param abunds SpatRaster object of ebirdst abundance
-#' @param pop_names Character vector of raster layer names manually provided. By default the function obtains this from `names(raster)`.
+#' @param pop_names Character vector of raster layer names manually provided. By default the function obtains this from `names(populations)`.
 #' @return A two-column matrix with population names in the first column and relative abundance values in the second column
 #' @export
 #'

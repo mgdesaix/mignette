@@ -5,11 +5,13 @@
 \alias{amre_conn}
 \title{American Redstart connectivity}
 \format{
-A tibble with 3 rows, 3 columns:
+A matrix with 5 rows, 5 columns:
 \describe{
-\item{1}{Connectivity of nonbreeding population ALM with breeding populations WB, NT, and ST}
-\item{2}{Connectivity of nonbreeding population CAR with breeding populations WB, NT, and ST}
-\item{3}{Connectivity of nonbreeding population AONU with breeding populations WB, NT, and ST}
+\item{ALM}{Connectivity of nonbreeding population ALM with the breeding populations}
+\item{LCA}{Connectivity of nonbreeding population LCA with the breeding populations}
+\item{HCA}{Connectivity of nonbreeding population HCA with the breeding populations}
+\item{CAR}{Connectivity of nonbreeding population CAR with the breeding populations}
+\item{AONU}{Connectivity of nonbreeding population AONU with the breeding populations}
 }
 }
 \usage{

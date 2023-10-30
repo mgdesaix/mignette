@@ -1,17 +1,26 @@
-#' Set up the data for the migratory network model in JAGS
+#' Set up the data for the migratory network model for JAGS
 #'
 #' @param abundance Tibble of abundance data across populations (model nodes)
-#' @param nb2br_assign Tibble of assignment for known nonbreeding (columns) to inferred breeding populations (rows)
-#' @param br2nb_assign Tibble of assignment for known breeding (columns) to inferred nonbreeding populations (rows)
+#' @param nb2br_assign Tibble of assignment for encounter season as nonbreeding (columns) and recovery season as breeding populations (rows)
+#' @param br2nb_assign Tibble of assignment for encounter season as breeding (columns) to recovery season as nonbreeding populations (rows)
 #' @param bnode_names Names of breeding populations/nodes
 #' @param wnode_names Names of nonbreeding populations/nodes
-#' @param model Select integer value of assignment model type (1 = known nonbreeding/inferred breeding, 2 = known breeding/inferred nonbreeding, 3 = both types of data provided)
+#' @param model Select integer value of assignment model type (1 = encounter nonbreeding/recovery breeding, 2 = ecounter breeding/recovery nonbreeding, 3 = both types of data provided)
+#' @param base_filename Character string of file name for the model .txt file that will be saved. Model integer added as suffix to name.
+#' @param iter.increment Integer value of jagsUI::autojags() parameter iter.increment
+#' @param n.thin Integer value of jagsUI::autojags() parameter n.thin
+#' @param n.burnin Integer value of jagsUI::autojags() parameter n.burnin
+#' @param n.chains Integer value of jagsUI::autojags() parameter n.chains
+#' @param parallel Logical value of jagsUI::autojags() paramter parallel
 #' @return A list of of input data for the JAGS model
 #' @export
 #'
 #'
-get_jags_data <- function(abundance, bnode_names, wnode_names, model,
-                          nb2br_assign = NULL, br2nb_assign = NULL){
+run_network_model <- function(abundance, bnode_names, wnode_names,
+                          model, base_filename = "jags",
+                          nb2br_assign = NULL, br2nb_assign = NULL,
+                          iter.increment = 500000, n.thin = 4,
+                          n.burnin = 100000, n.chains = 2, parallel = FALSE){
   stopifnot("`bnode_names` must correspond to values in first column of `abundance` tibble" = bnode_names %in% dplyr::pull(abundance, 1))
   stopifnot("`wnode_names` must correspond to values in first column of `abundance` tibble" = wnode_names %in% dplyr::pull(abundance, 1))
   stopifnot("Not a valid assignment model choice - must be integers 1, 2, or 3" = model %in% c(1,2,3))
@@ -42,6 +51,7 @@ get_jags_data <- function(abundance, bnode_names, wnode_names, model,
   ### Model 1:
   ## Known/sampled nonbreeding, inferred breeding origin (e.g. genetics)
   if (model == 1){
+
     dta_conn_x <- nb2br_assign %>%
       dplyr::arrange(factor(.[[1]], levels = bnode_names)) %>%
       tibble::column_to_rownames(colnames(nb2br_assign)[1]) %>%
@@ -185,5 +195,30 @@ get_jags_data <- function(abundance, bnode_names, wnode_names, model,
                       unknown_n=sum(dta_conn_x==0 & dta_conn_glx==0)
     )
   }
-  return(jags.data)
+  # run get_jags_model
+  jags_model_name <- mignette::get_jags_model(base_filename = base_filename, model = model)
+
+  # run JAGS model
+
+  parameters <- c("conn_g")
+
+  jags_out <- jagsUI::autojags(data = jags.data,
+                               inits = NULL,
+                               parameters.to.save = parameters,
+                               model.file = jags_model_name,
+                               n.chains = n.chains, n.thin = n.thin, iter.increment = iter.increment,
+                               max.iter = iter.increment*50+n.burnin, n.burnin = n.burnin,
+                               n.adapt = NULL, parallel = parallel)
+
+  conn <- as.data.frame(jags_out$mean$conn_g)
+  colnames(conn) <- wnode_names
+  conn.tib <- conn %>%
+    round(5) %>%
+    tibble::add_column("Breeding" = bnode_names, .before = 1)
+
+  network_model <- list()
+  network_model[["conn"]] <- conn.tib
+  network_model[["jags_out"]] <- jags_out
+
+  return(network_model)
 }

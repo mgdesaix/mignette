@@ -5,19 +5,21 @@
 \alias{amre_assign}
 \title{American Redstart assignment data}
 \format{
-A tibble with 3 rows, 4 columns:
+A tibble with 5 rows, 6 columns:
 \describe{
 \item{Breeding}{ID of the genetically distinct breeding population}
 \item{CAR}{Number of individuals from the Caribbean ecoregion assigned to the corresponding breeding population}
 \item{AONU}{Number of individuals from the Amazon/Orinoco-Northern Uplands ecoregion assigned to the corresponding breeding population}
 \item{ALM}{Number of individuals from the Atlantic Lowland Mexico ecoregion assigned to the corresponding breeding population}
+\item{HCA}{Number of individuals from the Highland Central America ecoregion assigned to the corresponding breeding population}
+\item{LCA}{Number of individuals from the Lowland Central America ecoregion assigned to the corresponding breeding population}
 }
 }
 \usage{
 amre_assign
 }
 \description{
-The tibble provides the assignment between three populations on each the breeding and nonbreeding range.
+The tibble provides the number of assigned individuals from five nonbreeding ecoregions to the five breeding populations.
 The assignment data was created using genetic population assignment of individuals sampled on the nonbreeding range to genetically-distinct breeding populations.
 }
 \keyword{datasets}

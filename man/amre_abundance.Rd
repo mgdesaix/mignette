@@ -5,16 +5,16 @@
 \alias{amre_abundance}
 \title{American Redstart population relative abundance}
 \format{
-A tibble with 6 rows, 2 columns:
+A tibble with 10 rows, 2 columns:
 \describe{
-\item{Population}{ID of the population}
-\item{Relative_abundance}{The relative abundance of the population}
+\item{Population}{ID of the node}
+\item{Relative_abundance}{The relative abundance of the node}
 }
 }
 \usage{
 amre_abundance
 }
 \description{
-The tibble provides relative abundance for 6 populations.
+The tibble provides relative abundance for all nodes (breeding and nonbreeding)
 }
 \keyword{datasets}

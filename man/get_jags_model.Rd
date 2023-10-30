@@ -4,7 +4,7 @@
 \alias{get_jags_model}
 \title{Create the migratory network model to be run in JAGS}
 \usage{
-get_jags_model(base_filename = "jags", model = 1)
+get_jags_model(base_filename = "jags", model)
 }
 \arguments{
 \item{base_filename}{Character string of file name for the model .txt file that will be saved. Model integer added as suffix to name.}

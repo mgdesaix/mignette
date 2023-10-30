@@ -23,7 +23,9 @@ Imports:
     dplyr,
     terra,
     tibble,
-    ggnewscale
+    ggnewscale,
+    jagsUI,
+    rjags
 Suggests: 
     knitr,
     rmarkdown,

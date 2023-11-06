@@ -18,15 +18,6 @@
 #' }
 "amre_breeding_data"
 
-#' Ecoregions of the western hemisphere
-#'
-#' These polygons were simplified with rmapshaper::ms_simplify()
-#'
-#' @format A simple feature collection with 27 features (ecoregions) and 8 fields
-#' \describe{
-#' }
-"ecoregions_simple"
-
 #' Metadata for the American Redstart samples from the stationary nonbreeding range
 #'
 #' The tibble provides metadata for all of the individuals sampled from the nonbreeding range.

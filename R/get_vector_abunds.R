@@ -7,9 +7,9 @@
 #' @export
 #'
 
-get_vector_abunds <- function(populations, abunds, pop_names = populations[[1]][[1]]){
+get_vector_abunds <- function(populations, abunds, pop_names){
 
-  stopifnot("`populations` layers and `pop_names` file of different lengths!" = length(populations[[1]][[1]]) == length(pop_names))
+  stopifnot("`populations` layers and `pop_names` file of different lengths!" = dim(populations)[1] == length(pop_names))
 
   abunds <- terra::project(abunds, '+proj=longlat +datum=WGS84', method = "near")
   abunds[abunds > 1000] <- 0

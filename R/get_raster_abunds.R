@@ -13,12 +13,9 @@ get_raster_abunds <- function(populations, abunds, pop_names = terra::names(popu
 
   spp_pops <- pop_names
 
-  b <- 1
-  # Change extent
-  # abunds_br <- terra::crop(abunds, terra::ext(populations))
   populations_01 <- populations %>%
     terra::clamp(lower = 0) %>% # classify less than 0 to 0
-    terra::app(., fun=function(x) exp(-(b/x))/sum(exp(-(b/x)))) # rescale probabilities 0-1
+    terra::app(., fun=function(x) exp(-(1/x))/sum(exp(-(1/x)))) # rescale probabilities 0-1
 
   # standardize abundance pixels to genoscape pixels (by summing)
   abundance_br <- terra::resample(abunds, populations_01, method="sum")

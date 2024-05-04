@@ -7,8 +7,10 @@
 #' @export
 #'
 #'
-get_raster_abunds <- function(populations, abunds, pop_names = names(populations)){
+get_raster_abunds <- function(populations, abunds, pop_names = terra::names(populations)){
   stopifnot("`populations` layers and `pop_names` file of different lengths!" = length(names(populations)) == length(pop_names))
+  stopifnot("Coordinate reference systems are not the same for `populations` and `abunds` objects (check crs)" = terra::crs(populations) == terra::crs(abunds))
+
   spp_pops <- pop_names
 
   b <- 1

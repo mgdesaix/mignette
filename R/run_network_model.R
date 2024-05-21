@@ -219,6 +219,8 @@ run_network_model <- function(abundance, brnode_names, nbnode_names,
   network_model <- list()
   network_model[["conn"]] <- conn.tib
   network_model[["jags_out"]] <- jags_out
+  network_model[["brnode_names"]] <- brnode_names
+  network_model[["nbnode_names"]] <- nbnode_names
 
   return(network_model)
 }

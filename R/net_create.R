@@ -12,7 +12,7 @@ net_create <- function(network_model,
                      connected_tol = 0.001){
 
   # create the net object
-  c_matrix <- network_model$mean$conn_g
+  c_matrix <- network_model$jags_out$mean$conn_g
   node_names <- list(network_model[["brnode_names"]], network_model[["nbnode_names"]])
   node_types <- c("BR", "NB")
   net<-list()

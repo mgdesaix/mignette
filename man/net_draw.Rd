@@ -4,14 +4,10 @@
 \alias{net_draw}
 \title{Visualize the network from the JAGS model}
 \usage{
-net_draw(network_model, margin = 0.05, connected_tol = 0.001)
+net_draw(net_object)
 }
 \arguments{
-\item{network_model}{Network model output from mignette::run_network_model()}
-
-\item{margin}{Float value}
-
-\item{connected_tol}{Float value}
+\item{net_object}{Net object produced from \code{net_create}}
 }
 \value{
 Returns a ggplot of the network

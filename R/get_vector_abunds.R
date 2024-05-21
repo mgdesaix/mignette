@@ -1,9 +1,9 @@
 #' Get relative abundance for vector files
 #'
 #' @param populations SpatVector object of population boundaries
-#' @param abunds SpatRaster object of ebirdst abundance
-#' @param pop_names Character vector of population names manually provided. By default the function obtains this from `populations[[1]][[1]]`.
-#' @return A two-column matrix with population names in the first column and relative abundance values in the second column
+#' @param abunds SpatRaster object of abundance
+#' @param pop_names Character vector of population names. By default the function obtains this from `populations[[1]][[1]]`.
+#' @return A two-column dataframe with population names in the first column and relative abundance values in the second column
 #' @export
 #'
 

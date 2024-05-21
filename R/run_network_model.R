@@ -200,7 +200,7 @@ run_network_model <- function(abundance, brnode_names, nbnode_names,
 
   # run JAGS model
 
-  parameters <- c("conn_g")
+  parameters <- c("conn_g", "FT.obs", "FT.rep", "bpval")
 
   jags_out <- jagsUI::autojags(data = jags.data,
                                inits = NULL,

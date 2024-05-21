@@ -10,15 +10,12 @@
 get_vector_abunds <- function(populations, abunds, pop_names){
 
   stopifnot("`populations` layers and `pop_names` file of different lengths!" = dim(populations)[1] == length(pop_names))
+  stopifnot("Coordinate reference systems are not the same for `populations` and `abunds` objects (check crs)" = terra::crs(populations) == terra::crs(abunds))
 
-  abunds <- terra::project(abunds, '+proj=longlat +datum=WGS84', method = "near")
-  abunds[abunds > 1000] <- 0
 
-  terra::crs(populations) <- terra::crs(abunds) <- "+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0"
-
-  abunds_nb <- terra::crop(abunds, terra::ext(populations)) # c(-170, -30, 0, 60)
-  abunds_nb_ecoregions <- terra::extract(abunds_nb, populations, weights=T, na.rm=TRUE)
-  abunds_nb_ecoregions_w <- abunds_nb_ecoregions %>%
+  abunds_crop <- terra::crop(abunds, terra::ext(populations)) # Crop abundance by polygons
+  abunds_values <- terra::extract(abunds_crop, populations, weights=T, na.rm=TRUE) # extract values
+  final_abunds <- abunds_values %>%
     tidyr::drop_na() %>%
     dplyr::mutate(Relative_abundance = .[[2]]*.[[3]]) %>%
     dplyr::group_by_at(1) %>%
@@ -26,11 +23,8 @@ get_vector_abunds <- function(populations, abunds, pop_names){
     dplyr::ungroup() %>%
     dplyr::select(Relative_abundance)
 
-  spp_winterRegions_abunds <- cbind(pop_names,
-                                    abunds_nb_ecoregions_w) %>%
-    as.matrix()
+  final_abunds_df <- data.frame("Population" = pop_names,
+                                "Relative_abundance" = final_abunds)
 
-
-  colnames(spp_winterRegions_abunds) <- c("Population", "Relative_abundance")
-  return(spp_winterRegions_abunds)
+  return(final_abunds_df)
 }

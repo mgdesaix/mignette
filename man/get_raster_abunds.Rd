@@ -4,17 +4,17 @@
 \alias{get_raster_abunds}
 \title{Get relative abundance for genoscape}
 \usage{
-get_raster_abunds(populations, abunds, pop_names = names(populations))
+get_raster_abunds(populations, abunds, pop_names = terra::names(populations))
 }
 \arguments{
 \item{populations}{SpatRaster object of layers with values delineating membership probabilities to a population}
 
-\item{abunds}{SpatRaster object of ebirdst abundance}
+\item{abunds}{SpatRaster object of abundance}
 
-\item{pop_names}{Character vector of raster layer names manually provided. By default the function obtains this from \code{names(populations)}.}
+\item{pop_names}{Character vector of raster layer names. By default the function obtains this from \code{names(populations)}.}
 }
 \value{
-A two-column matrix with population names in the first column and relative abundance values in the second column
+A two-column data frame with population names in the first column and relative abundance values in the second column
 }
 \description{
 Get relative abundance for genoscape

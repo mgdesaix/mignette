@@ -2,16 +2,20 @@
 % Please edit documentation in R/net_draw.R
 \name{net_draw}
 \alias{net_draw}
-\title{Plot the network}
+\title{Visualize the network from the JAGS model}
 \usage{
-net_draw(network)
+net_draw(network_model, margin = 0.05, connected_tol = 0.001)
 }
 \arguments{
-\item{network}{The network created from \code{net_create}}
+\item{network_model}{Network model output from mignette::run_network_model()}
+
+\item{margin}{Float value}
+
+\item{connected_tol}{Float value}
 }
 \value{
-Returns a network plot
+Returns a ggplot of the network
 }
 \description{
-Plot the network
+Visualize the network from the JAGS model
 }

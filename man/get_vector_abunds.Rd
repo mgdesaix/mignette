@@ -4,17 +4,17 @@
 \alias{get_vector_abunds}
 \title{Get relative abundance for vector files}
 \usage{
-get_vector_abunds(populations, abunds, pop_names = populations[[1]][[1]])
+get_vector_abunds(populations, abunds, pop_names)
 }
 \arguments{
 \item{populations}{SpatVector object of population boundaries}
 
-\item{abunds}{SpatRaster object of ebirdst abundance}
+\item{abunds}{SpatRaster object of abundance}
 
-\item{pop_names}{Character vector of population names manually provided. By default the function obtains this from \code{populations[[1]][[1]]}.}
+\item{pop_names}{Character vector of population names. By default the function obtains this from \code{populations[[1]][[1]]}.}
 }
 \value{
-A two-column matrix with population names in the first column and relative abundance values in the second column
+A two-column dataframe with population names in the first column and relative abundance values in the second column
 }
 \description{
 Get relative abundance for vector files

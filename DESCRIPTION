@@ -24,8 +24,7 @@ Imports:
     terra,
     tibble,
     ggnewscale,
-    jagsUI,
-    rjags
+    jagsUI
 Suggests: 
     knitr,
     rmarkdown,

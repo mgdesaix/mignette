@@ -6,8 +6,8 @@
 \usage{
 run_network_model(
   abundance,
-  bnode_names,
-  wnode_names,
+  brnode_names,
+  nbnode_names,
   model,
   base_filename = "jags",
   nb2br_assign = NULL,
@@ -22,9 +22,9 @@ run_network_model(
 \arguments{
 \item{abundance}{Tibble of abundance data across populations (model nodes)}
 
-\item{bnode_names}{Names of breeding populations/nodes}
+\item{brnode_names}{Names of breeding populations/nodes}
 
-\item{wnode_names}{Names of nonbreeding populations/nodes}
+\item{nbnode_names}{Names of nonbreeding populations/nodes}
 
 \item{model}{Select integer value of assignment model type (1 = encounter nonbreeding/recovery breeding, 2 = ecounter breeding/recovery nonbreeding, 3 = both types of data provided)}
 

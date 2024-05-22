@@ -1,8 +1,8 @@
 #' Get relative abundance for genoscape
 #'
 #' @param populations SpatRaster object of layers with values delineating membership probabilities to a population
-#' @param abunds SpatRaster object of ebirdst abundance
-#' @param pop_names Character vector of raster layer names manually provided. By default the function obtains this from `names(populations)`.
+#' @param abunds SpatRaster object of abundance
+#' @param pop_names Character vector of raster layer names. By default the function obtains this from `names(populations)`.
 #' @return A two-column data frame with population names in the first column and relative abundance values in the second column
 #' @export
 #'
@@ -18,7 +18,7 @@ get_raster_abunds <- function(populations, abunds, pop_names = terra::names(popu
     terra::app(., fun=function(x) exp(-(1/x))/sum(exp(-(1/x)))) # rescale probabilities 0-1
 
   # standardize abundance pixels to genoscape pixels (by summing)
-  abundance_br <- terra::resample(abunds, populations_01, method="sum")
+  abunds_br <- terra::resample(abunds, populations_01, method="sum")
 
   # calculate weighted abundance
   abunds_weighted_raster <- abunds_br * populations_01

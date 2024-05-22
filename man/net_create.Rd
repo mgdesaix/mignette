@@ -2,30 +2,20 @@
 % Please edit documentation in R/net_create.R
 \name{net_create}
 \alias{net_create}
-\title{Create the network for visualizing from the JAGS model}
+\title{Create a "net" object from the JAGS model for visualization}
 \usage{
-net_create(
-  c_matrix,
-  node.types = c("B", "W"),
-  node.names = list(),
-  margin = 0.05,
-  connected_tol = 0.001
-)
+net_create(network_model, margin = 0.05, connected_tol = 0.001)
 }
 \arguments{
-\item{c_matrix}{Matrix of network connectivity. This is the output from the JAGS run}
-
-\item{node.types}{Node types of seasonal stages of annual cycle: "B" for breeding, "W" for wintering/nonbreeding}
-
-\item{node.names}{Node names of the connectivity model. These need to be in the same order of the JAGS run.}
+\item{network_model}{Network model output from mignette::run_network_model()}
 
 \item{margin}{Float value}
 
 \item{connected_tol}{Float value}
 }
 \value{
-Returns a network
+Returns a net object to be used in \code{net_draw} function
 }
 \description{
-Create the network for visualizing from the JAGS model
+Create a "net" object from the JAGS model for visualization
 }

@@ -2,16 +2,16 @@
 % Please edit documentation in R/net_draw.R
 \name{net_draw}
 \alias{net_draw}
-\title{Plot the network}
+\title{Visualize the network from the JAGS model}
 \usage{
-net_draw(network)
+net_draw(net_object)
 }
 \arguments{
-\item{network}{The network created from \code{net_create}}
+\item{net_object}{Net object produced from \code{net_create}}
 }
 \value{
-Returns a network plot
+Returns a ggplot of the network
 }
 \description{
-Plot the network
+Visualize the network from the JAGS model
 }

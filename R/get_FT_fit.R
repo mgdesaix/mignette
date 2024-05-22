@@ -21,7 +21,9 @@ get_FT_fit <- function(network_model){
   bpval <- round(jags_out$mean$bpval, 3)
 
   p.FT <- FT.df %>%
-    tidyr::pivot_longer(cols = FT_obs:FT_rep,
+    dplyr::rename("Observed" = "FT_obs",
+                  "Simulated" = "FT_rep") %>%
+    tidyr::pivot_longer(cols = Observed:Simulated,
                         names_to = "Data",
                         values_to = "Statistic") %>%
     ggplot2::ggplot()+

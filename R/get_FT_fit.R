@@ -20,7 +20,7 @@ get_FT_fit <- function(network_model){
 
   bpval <- round(jags_out$mean$bpval, 3)
 
-  FT.df %>%
+  p.FT <- FT.df %>%
     tidyr::pivot_longer(cols = FT_obs:FT_rep,
                         names_to = "Data",
                         values_to = "Statistic") %>%
@@ -32,5 +32,7 @@ get_FT_fit <- function(network_model){
                           position = "identity") +
     ggplot2::labs(title = "Posterior Predictive Check with Freeman-Tukey statistic",
                   subtitle = paste("pvalue = ", bpval)) +
-    ggplot2::xlab("Freeman-Tukey statistic")
+    ggplot2::xlab("Freeman-Tukey statistic") +
+    ggplot2::theme_bw()
+  return(p.FT)
 }

@@ -33,7 +33,7 @@ get_FT_fit <- function(network_model){
                           alpha = 0.5,
                           position = "identity") +
     ggplot2::labs(title = "Posterior Predictive Check with Freeman-Tukey statistic",
-                  subtitle = paste("pvalue = ", bpval)) +
+                  subtitle = paste("Bayesian p-value = ", bpval)) +
     ggplot2::xlab("Freeman-Tukey statistic") +
     ggplot2::theme_bw()
   return(p.FT)

@@ -26,9 +26,9 @@ run_network_model(
 
 \item{nbnode_names}{Names of nonbreeding populations/nodes}
 
-\item{model}{Select integer value of assignment model type (1 = encounter nonbreeding/recovery breeding, 2 = ecounter breeding/recovery nonbreeding, 3 = both types of data provided)}
+\item{model}{Select assignment model type ("BR" = encounter nonbreeding/recovery breeding, NB = encounter breeding/recovery nonbreeding, FULL = both types of data provided)}
 
-\item{base_filename}{Character string of file name for the model .txt file that will be saved. Model integer added as suffix to name.}
+\item{base_filename}{Character string of file name for the model .txt file that will be saved. Model type added as suffix to name.}
 
 \item{nb2br_assign}{Tibble of assignment for encounter season as nonbreeding (columns) and recovery season as breeding populations (rows)}
 

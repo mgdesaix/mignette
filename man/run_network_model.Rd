@@ -22,11 +22,11 @@ run_network_model(
 \arguments{
 \item{abundance}{Tibble of abundance data across populations (model nodes)}
 
-\item{brnode_names}{Names of breeding populations/nodes}
+\item{brnode_names}{Character vector of names of breeding populations/nodes}
 
-\item{nbnode_names}{Names of nonbreeding populations/nodes}
+\item{nbnode_names}{Character vector of names of nonbreeding populations/nodes}
 
-\item{model}{Select assignment model type ("BR" = encounter nonbreeding/recovery breeding, NB = encounter breeding/recovery nonbreeding, FULL = both types of data provided)}
+\item{model}{Character string of assignment model type ("BR" = encounter nonbreeding/recovery breeding, NB = encounter breeding/recovery nonbreeding, FULL = both types of data provided)}
 
 \item{base_filename}{Character string of file name for the model .txt file that will be saved. Model type added as suffix to name.}
 

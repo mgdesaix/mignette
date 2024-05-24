@@ -3,9 +3,9 @@
 #' @param abundance Tibble of abundance data across populations (model nodes)
 #' @param nb2br_assign Tibble of assignment for encounter season as nonbreeding (columns) and recovery season as breeding populations (rows)
 #' @param br2nb_assign Tibble of assignment for encounter season as breeding (columns) to recovery season as nonbreeding populations (rows)
-#' @param brnode_names Names of breeding populations/nodes
-#' @param nbnode_names Names of nonbreeding populations/nodes
-#' @param model Select assignment model type ("BR" = encounter nonbreeding/recovery breeding, NB = encounter breeding/recovery nonbreeding, FULL = both types of data provided)
+#' @param brnode_names Character vector of names of breeding populations/nodes
+#' @param nbnode_names Character vector of names of nonbreeding populations/nodes
+#' @param model Character string of assignment model type ("BR" = encounter nonbreeding/recovery breeding, NB = encounter breeding/recovery nonbreeding, FULL = both types of data provided)
 #' @param base_filename Character string of file name for the model .txt file that will be saved. Model type added as suffix to name.
 #' @param iter.increment Integer value of jagsUI::autojags() parameter iter.increment
 #' @param n.thin Integer value of jagsUI::autojags() parameter n.thin

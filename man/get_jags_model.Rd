@@ -9,7 +9,7 @@ get_jags_model(base_filename = "jags", model)
 \arguments{
 \item{base_filename}{Character string of file name for the model .txt file that will be saved. Model integer added as suffix to name.}
 
-\item{model}{Select integer value of assignment model type (1 = known nonbreeding/inferred breeding, 2 = known breeding/inferred nonbreeding, 3 = both types of data provided)}
+\item{model}{Select assignment model type ("BR" = encounter nonbreeding/recovery breeding, NB = encounter breeding/recovery nonbreeding, FULL = both types of data provided)}
 }
 \value{
 Returns the file name of the model and saves the model as a text file

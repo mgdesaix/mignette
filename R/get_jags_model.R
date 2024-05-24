@@ -1,16 +1,15 @@
 #' Create the migratory network model to be run in JAGS
 #'
 #' @param base_filename Character string of file name for the model .txt file that will be saved. Model integer added as suffix to name.
-#' @param model Select integer value of assignment model type (1 = known nonbreeding/inferred breeding, 2 = known breeding/inferred nonbreeding, 3 = both types of data provided)
+#' @param model Select assignment model type ("BR" = encounter nonbreeding/recovery breeding, NB = encounter breeding/recovery nonbreeding, FULL = both types of data provided)
 #' @return Returns the file name of the model and saves the model as a text file
 #' @export
 #'
 #'
 get_jags_model <- function(base_filename = "jags", model){
-  stopifnot("Not a valid assignment model choice - must be integers 1, 2, or 3" = model %in% c(1,2,3))
 
-  if(model == 1){
-    base_filename <- paste0(base_filename, ".model_1.txt")
+  if(model == "BR"){
+    base_filename <- paste0(base_filename, ".model_BR.txt")
     ################################################################################
     # JAGS model 1
     ############################################################################
@@ -123,8 +122,8 @@ get_jags_model <- function(base_filename = "jags", model){
         }
         ", fill=TRUE)
     sink()
-  } else if(model == 2){
-    base_filename <- paste0(base_filename, ".model_2.txt")
+  } else if(model == "NB"){
+    base_filename <- paste0(base_filename, ".model_NB.txt")
 
     ################################################################################
     #JAGS model 2
@@ -246,7 +245,7 @@ get_jags_model <- function(base_filename = "jags", model){
     ", fill=TRUE)
     sink()
   } else{
-    base_filename <- paste0(base_filename, ".model_3.txt")
+    base_filename <- paste0(base_filename, ".model_FULL.txt")
     ################################################################################
     #JAGS model 3
     ############################################################################

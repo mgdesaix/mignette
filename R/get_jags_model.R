@@ -320,7 +320,7 @@ get_jags_model <- function(base_filename = "jags", model){
 
     for (i in brnode_gendat){
         dta_conn_x[i,1:obs_nbnode_n] ~ dmulti(px[i,], dta_conn_rowsum[i])
-        dta_conn_x.exp[i,1:obs_wnode_n] <- px[i,]/sum(px[i,]) * dta_conn_rowsum[i] # expected value
+        dta_conn_x.exp[i,1:obs_nbnode_n] <- px[i,]/sum(px[i,]) * dta_conn_rowsum[i] # expected value
         for (j in 1:obs_nbnode_n){
             px[i,j] <- conn_g[i,j]*dta_conn_effort[j]
 

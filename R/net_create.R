@@ -2,17 +2,22 @@
 #'
 #' @param network_model Network model output from mignette::run_network_model()
 #' @param margin Float value
-#' @param connected_tol Float value
+#' @param connected_tol Float value to set threshold of connectivity estimates to set to 0
+#' @param replace_overlap Logical value for changing connectivity estimates to 0 that have 95% credible intervals bounded by 0
 #' @return Returns a net object to be used in `net_draw` function
 #' @export
 #'
 #'
 net_create <- function(network_model,
                      margin = 0.05,
-                     connected_tol = 0.001){
+                     connected_tol = 0.001,
+                     replace_overlap = FALSE){
 
   # create the net object
   c_matrix <- network_model$jags_out$mean$conn_g
+  if(replace_overlap == TRUE){
+    c_matrix[network_model$jags_out$overlap0$conn_g] <- 0
+  }
   node_names <- list(network_model[["brnode_names"]], network_model[["nbnode_names"]])
   node_types <- c("BR", "NB")
   net<-list()

@@ -4,7 +4,7 @@
 #' @param stage Character string "Breeding" or "Nonbreeding" for determining axes
 #' @param stage_colors Optional character vector manually specifying the colors of the nodes in `stage`
 #' @param overlap Logical, indicates whether to label connectivity values that have 95% CIs overlapping with 0
-#' @return Returns a ggplot of the observed vs. simulated Freeman-Tukey distributions, and Bayesian pvalue
+#' @return Returns a ggplot object of the 95% credible intervals of the connectivity estimates
 #' @export
 #'
 plot_network_CI <- function(network_model, stage = "Breeding", stage_colors = NULL, overlap = TRUE){

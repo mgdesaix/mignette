@@ -21,7 +21,7 @@ plot_network_CI(
 \item{overlap}{Logical, indicates whether to label connectivity values that have 95\% CIs overlapping with 0}
 }
 \value{
-Returns a ggplot of the observed vs. simulated Freeman-Tukey distributions, and Bayesian pvalue
+Returns a ggplot object of the 95\% credible intervals of the connectivity estimates
 }
 \description{
 Plot 95\% credible intervals of connectivity

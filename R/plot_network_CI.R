@@ -14,13 +14,13 @@ plot_network_CI <- function(network_model, stage = "Breeding", stage_colors = NU
   brnode_names <- network_model$brnode_names
   nbnode_names <- network_model$nbnode_names
 
-  q2.5.long <- tidy_conn(conn_mat = network_model$jags_out$q2.5$conn_g, statistic = "Q2.5",
+  q2.5.long <- tidy_conn(conn_mat = network_model$jags_out$q2.5$conn, statistic = "Q2.5",
                          brnode_names = brnode_names, nbnode_names = nbnode_names)
-  mean.long <- tidy_conn(conn_mat = network_model$jags_out$mean$conn_g, statistic = "Mean",
+  mean.long <- tidy_conn(conn_mat = network_model$jags_out$mean$conn, statistic = "Mean",
                          brnode_names = brnode_names, nbnode_names = nbnode_names)
-  q97.5.long <- tidy_conn(conn_mat = network_model$jags_out$q97.5$conn_g, statistic = "Q97.5",
+  q97.5.long <- tidy_conn(conn_mat = network_model$jags_out$q97.5$conn, statistic = "Q97.5",
                           brnode_names = brnode_names, nbnode_names = nbnode_names)
-  overlap.long <- tidy_conn(conn_mat = network_model$jags_out$overlap$conn_g, statistic = "Overlap",
+  overlap.long <- tidy_conn(conn_mat = network_model$jags_out$overlap$conn, statistic = "Overlap",
                             brnode_names = brnode_names, nbnode_names = nbnode_names)
   full.long <- q2.5.long %>%
     dplyr::left_join(mean.long, by = c("Breeding", "Nonbreeding")) %>%

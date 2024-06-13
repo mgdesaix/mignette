@@ -57,7 +57,7 @@ get_jags_model <- function(base_filename = "jags", model){
         {
           for(i in 1:obs_brnode_n){
               connected[i,j] ~ dbern(psi[i,j])
-              conn_g[i,j] <- alpha2[i,j]/sum(alpha2)
+              conn[i,j] <- alpha2[i,j]/sum(alpha2)
               alpha2[i,j]<-alpha[i,j]*connected[i,j]
               alpha[i,j] ~ dpois(lambda[i,j])
               lambda[i,j] ~ dunif(0,1000)
@@ -72,7 +72,7 @@ get_jags_model <- function(base_filename = "jags", model){
         #---------------------------------------------------------------------------
         for(j in 1:obs_nbnode_n)
         {
-            dta_conn_y[1:obs_brnode_n,j] ~ dmulti(conn_g[,j], dta_conn_colsum[j])
+            dta_conn_y[1:obs_brnode_n,j] ~ dmulti(conn[,j], dta_conn_colsum[j])
         }
         #---------------------------------------------------------------------------
         # Part 2 The data in rows can also be assumed to be mutinomial but we have to
@@ -85,7 +85,7 @@ get_jags_model <- function(base_filename = "jags", model){
             dta_conn_x[i,1:obs_nbnode_n] ~ dmulti(px[i,], dta_conn_rowsum[i])
             dta_conn_x.exp[i,1:obs_nbnode_n] <- px[i,]/sum(px[i,]) * dta_conn_rowsum[i] # expected value
             for (j in 1:obs_nbnode_n){
-                px[i,j] <- conn_g[i,j]*dta_conn_effort[j]
+                px[i,j] <- conn[i,j]*dta_conn_effort[j]
                 dta_conn_x.rep[i,j] ~ dbinom(px[i,j] / sum(px[i,]), dta_conn_rowsum[i]) # random samples, avoid incomplete multinomial
                 FT.obs[i,j] <- pow(pow(dta_conn_x[i,j], 0.5) - pow(dta_conn_x.exp[i,j], 0.5), 2) # Freeman-Tukey observed
                 FT.rep[i,j] <- pow(pow(dta_conn_x.rep[i,j], 0.5) - pow(dta_conn_x.exp[i,j], 0.5), 2) # Freeman-Tukey simulated
@@ -103,7 +103,7 @@ get_jags_model <- function(base_filename = "jags", model){
         #---------------------------------------------------------------------------
         for(i in 1:obs_brnode_n)
         {
-            pb[i]<-sum(conn_g[i,])
+            pb[i]<-sum(conn[i,])
         }
         dta_conn_nb.est.mn ~ dmulti(pb,dta_conn_nb.est.sum)
 
@@ -112,7 +112,7 @@ get_jags_model <- function(base_filename = "jags", model){
         #---------------------------------------------------------------------------
         for(j in 1:obs_nbnode_n)
         {
-            pw[j]<-sum(conn_g[,j])
+            pw[j]<-sum(conn[,j])
          }
 
         dta_conn_nw.est.mn ~ dmulti(pw,dta_conn_nw.est.sum)
@@ -171,7 +171,7 @@ get_jags_model <- function(base_filename = "jags", model){
     {
       for(i in 1:obs_brnode_n){
           connected[i,j] ~ dbern(psi[i,j])
-          conn_g[i,j] <- alpha2[i,j]/sum(alpha2)
+          conn[i,j] <- alpha2[i,j]/sum(alpha2)
           alpha2[i,j]<-alpha[i,j]*connected[i,j]
           alpha[i,j] ~ dpois(lambda[i,j])
           lambda[i,j] ~ dunif(0,1000)
@@ -194,7 +194,7 @@ get_jags_model <- function(base_filename = "jags", model){
         dta_conn_gly.exp[1:obs_brnode_n,j] <- pglx[,j]/sum(pglx[,j]) * dta_conn_glcolsum[j] # expected value
 
         for (i in 1:obs_brnode_n){
-            pglx[i,j] <- conn_g[i,j]*dta_conn_gleffort[i]
+            pglx[i,j] <- conn[i,j]*dta_conn_gleffort[i]
 
             dta_conn_gly.rep[i,j] ~ dbinom(pglx[i,j] / sum(pglx[,j]), dta_conn_glcolsum[j]) # random samples, avoid incomplete multinomial
             FT.obs[i,j] <- pow(pow(dta_conn_gly[i,j], 0.5) - pow(dta_conn_gly.exp[i,j], 0.5), 2) # Freeman-Tukey observed
@@ -216,7 +216,7 @@ get_jags_model <- function(base_filename = "jags", model){
    #add array for which node has data, replace 1:obs_nbnode_n with array name
 
     for (i in brnode_gldat){
-        dta_conn_glx[i,1:obs_nbnode_n] ~ dmulti(conn_g[i,], dta_conn_glrowsum[i])
+        dta_conn_glx[i,1:obs_nbnode_n] ~ dmulti(conn[i,], dta_conn_glrowsum[i])
     } #i
 
     #---------------------------------------------------------------------------
@@ -225,7 +225,7 @@ get_jags_model <- function(base_filename = "jags", model){
     #---------------------------------------------------------------------------
     for(i in 1:obs_brnode_n)
     {
-        pb[i]<-sum(conn_g[i,])
+        pb[i]<-sum(conn[i,])
     }
     dta_conn_nb.est.mn ~ dmulti(pb,dta_conn_nb.est.sum)
 
@@ -234,7 +234,7 @@ get_jags_model <- function(base_filename = "jags", model){
     #---------------------------------------------------------------------------
     for(j in 1:obs_nbnode_n)
     {
-        pw[j]<-sum(conn_g[,j])
+        pw[j]<-sum(conn[,j])
      }
 
     dta_conn_nw.est.mn ~ dmulti(pw,dta_conn_nw.est.sum)
@@ -245,7 +245,7 @@ get_jags_model <- function(base_filename = "jags", model){
     ", fill=TRUE)
     sink()
   } else{
-    base_filename <- paste0(base_filename, ".model_FULL.txt")
+    base_filename <- paste0(base_filename, ".model_BR-NB.txt")
     ################################################################################
     #JAGS model 3
     ############################################################################
@@ -290,7 +290,7 @@ get_jags_model <- function(base_filename = "jags", model){
     {
       for(i in 1:obs_brnode_n){
           connected[i,j] ~ dbern(psi[i,j])
-          conn_g[i,j] <- alpha2[i,j]/sum(alpha2)
+          conn[i,j] <- alpha2[i,j]/sum(alpha2)
           alpha2[i,j]<-alpha[i,j]*connected[i,j]
           alpha[i,j] ~ dpois(lambda[i,j])
           lambda[i,j] ~ dunif(0,1000)
@@ -306,7 +306,7 @@ get_jags_model <- function(base_filename = "jags", model){
     #add array for which node has data, replace 1:obs_nbnode_n with array name
     for(j in nbnode_gendat)
     {
-        dta_conn_y[1:obs_brnode_n,j] ~ dmulti(conn_g[,j], dta_conn_colsum[j])
+        dta_conn_y[1:obs_brnode_n,j] ~ dmulti(conn[,j], dta_conn_colsum[j])
     }
     #---------------------------------------------------------------------------
     # Part 2 The data in rows can also be assumed to be mutinomial but we have to
@@ -322,7 +322,7 @@ get_jags_model <- function(base_filename = "jags", model){
         dta_conn_x[i,1:obs_nbnode_n] ~ dmulti(px[i,], dta_conn_rowsum[i])
         dta_conn_x.exp[i,1:obs_nbnode_n] <- px[i,]/sum(px[i,]) * dta_conn_rowsum[i] # expected value
         for (j in 1:obs_nbnode_n){
-            px[i,j] <- conn_g[i,j]*dta_conn_effort[j]
+            px[i,j] <- conn[i,j]*dta_conn_effort[j]
 
             dta_conn_x.rep[i,j] ~ dbinom(px[i,j] / sum(px[i,]), dta_conn_rowsum[i]) # random samples, avoid incomplete multinomial
             FT.obs[i,j] <- pow(pow(dta_conn_x[i,j], 0.5) - pow(dta_conn_x.exp[i,j], 0.5), 2)
@@ -347,7 +347,7 @@ get_jags_model <- function(base_filename = "jags", model){
         dta_conn_gly[1:obs_brnode_n,j] ~ dmulti(pglx[,j], dta_conn_glcolsum[j])
 
                for (i in 1:obs_brnode_n){
-            pglx[i,j] <- conn_g[i,j]*dta_conn_gleffort[i]
+            pglx[i,j] <- conn[i,j]*dta_conn_gleffort[i]
         } #i
 
     }
@@ -362,7 +362,7 @@ get_jags_model <- function(base_filename = "jags", model){
    #add array for which node has data, replace 1:obs_nbnode_n with array name
 
     for (i in brnode_gldat){
-        dta_conn_glx[i,1:obs_nbnode_n] ~ dmulti(conn_g[i,], dta_conn_glrowsum[i])
+        dta_conn_glx[i,1:obs_nbnode_n] ~ dmulti(conn[i,], dta_conn_glrowsum[i])
     } #i
 
     #---------------------------------------------------------------------------
@@ -371,7 +371,7 @@ get_jags_model <- function(base_filename = "jags", model){
     #---------------------------------------------------------------------------
     for(i in 1:obs_brnode_n)
     {
-        pb[i]<-sum(conn_g[i,])
+        pb[i]<-sum(conn[i,])
     }
     dta_conn_nb.est.mn ~ dmulti(pb,dta_conn_nb.est.sum)
 
@@ -380,7 +380,7 @@ get_jags_model <- function(base_filename = "jags", model){
     #---------------------------------------------------------------------------
     for(j in 1:obs_nbnode_n)
     {
-        pw[j]<-sum(conn_g[,j])
+        pw[j]<-sum(conn[,j])
      }
 
     dta_conn_nw.est.mn ~ dmulti(pw,dta_conn_nw.est.sum)

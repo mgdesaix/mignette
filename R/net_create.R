@@ -14,9 +14,9 @@ net_create <- function(network_model,
                      replace_overlap = FALSE){
 
   # create the net object
-  c_matrix <- network_model$jags_out$mean$conn_g
+  c_matrix <- network_model$jags_out$mean$conn
   if(replace_overlap == TRUE){
-    c_matrix[network_model$jags_out$overlap0$conn_g] <- 0
+    c_matrix[network_model$jags_out$overlap0$conn] <- 0
   }
   node_names <- list(network_model[["brnode_names"]], network_model[["nbnode_names"]])
   node_types <- c("BR", "NB")

@@ -5,7 +5,7 @@
 #' @param br2nb_assign Tibble of assignment for encounter season as breeding (columns) to recovery season as nonbreeding populations (rows)
 #' @param brnode_names Character vector of names of breeding populations/nodes
 #' @param nbnode_names Character vector of names of nonbreeding populations/nodes
-#' @param model Character string of assignment model type ("BR" = encounter nonbreeding/recovery breeding, NB = encounter breeding/recovery nonbreeding, FULL = both types of data provided)
+#' @param model Character string of assignment model type ("BR" = encounter nonbreeding/recovery breeding, NB = encounter breeding/recovery nonbreeding, BR-NB = both types of data provided)
 #' @param base_filename Character string of file name for the model .txt file that will be saved. Model type added as suffix to name.
 #' @param iter.increment Integer value of jagsUI::autojags() parameter iter.increment
 #' @param n.thin Integer value of jagsUI::autojags() parameter n.thin
@@ -20,17 +20,17 @@ run_network_model <- function(abundance, brnode_names, nbnode_names,
                           model, base_filename = "jags",
                           nb2br_assign = NULL, br2nb_assign = NULL,
                           iter.increment = 500000, n.thin = 4,
-                          n.burnin = 100000, n.chains = 2, parallel = FALSE){
+                          n.burnin = 100000, n.chains = 3, parallel = FALSE){
   stopifnot("`brnode_names` must correspond to values in first column of `abundance` tibble" = brnode_names %in% dplyr::pull(abundance, 1))
   stopifnot("`nbnode_names` must correspond to values in first column of `abundance` tibble" = nbnode_names %in% dplyr::pull(abundance, 1))
-  stopifnot("Not a valid assignment model choice - must be BR, NB, or FULL" = model %in% c("BR", "NB", "FULL"))
+  stopifnot("Not a valid assignment model choice - must be BR, NB, or FULL" = model %in% c("BR", "NB", "BR-NB"))
 
-  if (model == "BR" | model == "FULL"){
+  if (model == "BR" | model == "BR-NB"){
     stopifnot("No assignment file of nonbreeding to breeding (`nb2br_assign`) provided!" = !is.null(nb2br_assign))
     stopifnot("First column of `nb2br_assign` tibble must correspond to values in `brnode_names`" = dplyr::pull(nb2br_assign, 1) %in% brnode_names)
     stopifnot("Column names of `nb2br_assign` tibble starting with column 2 must be in `wbode_names`" = colnames(nb2br_assign)[2:length(colnames(nb2br_assign))] %in% nbnode_names)
   }
-  if (model == "NB" | model == "FULL"){
+  if (model == "NB" | model == "BR-NB"){
     stopifnot("No assignment file of breeding to nonbreeding (`br2nb_assign`) provided!" = !is.null(br2nb_assign))
     stopifnot("First column of `br2nb_assign` tibble must correspond to values in `brnode_names`" = dplyr::pull(br2nb_assign, 1) %in% brnode_names)
     stopifnot("Column names of `br2nb_assign` tibble starting with column 2 must be in `wbode_names`" = colnames(br2nb_assign)[2:length(colnames(br2nb_assign))] %in% nbnode_names)
@@ -200,7 +200,7 @@ run_network_model <- function(abundance, brnode_names, nbnode_names,
 
   # run JAGS model
 
-  parameters <- c("conn_g", "FT.obs", "FT.rep", "bpval")
+  parameters <- c("conn", "FT.obs", "FT.rep", "bpval")
 
   jags_out <- jagsUI::autojags(data = jags.data,
                                inits = NULL,
@@ -210,7 +210,7 @@ run_network_model <- function(abundance, brnode_names, nbnode_names,
                                max.iter = iter.increment*50+n.burnin, n.burnin = n.burnin,
                                n.adapt = NULL, parallel = parallel)
 
-  conn <- as.data.frame(jags_out$mean$conn_g)
+  conn <- as.data.frame(jags_out$mean$conn)
   colnames(conn) <- nbnode_names
   conn.tib <- conn %>%
     round(5) %>%

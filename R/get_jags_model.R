@@ -83,10 +83,10 @@ get_jags_model <- function(base_filename = "jags", model){
         #---------------------------------------------------------------------------
         for (i in 1:obs_brnode_n){
             dta_conn_x[i,1:obs_nbnode_n] ~ dmulti(px[i,], dta_conn_rowsum[i])
-            dta_conn_x.exp[i,1:obs_nbnode_n] <- px[i,]/sum(px[i,]) * dta_conn_rowsum[i] # expected value
+            dta_conn_x.exp[i,1:obs_nbnode_n] <- conn[i,]/sum(conn[i,]) * dta_conn_rowsum[i] # expected value
             for (j in 1:obs_nbnode_n){
                 px[i,j] <- conn[i,j]*dta_conn_effort[j]
-                dta_conn_x.rep[i,j] ~ dbinom(px[i,j] / sum(px[i,]), dta_conn_rowsum[i]) # random samples, avoid incomplete multinomial
+                dta_conn_x.rep[i,j] ~ dbinom(conn[i,j] / sum(conn[i,]), dta_conn_rowsum[i]) # random samples, avoid incomplete multinomial
                 FT.obs[i,j] <- pow(pow(dta_conn_x[i,j], 0.5) - pow(dta_conn_x.exp[i,j], 0.5), 2) # Freeman-Tukey observed
                 FT.rep[i,j] <- pow(pow(dta_conn_x.rep[i,j], 0.5) - pow(dta_conn_x.exp[i,j], 0.5), 2) # Freeman-Tukey simulated
             } #j
@@ -191,12 +191,12 @@ get_jags_model <- function(base_filename = "jags", model){
     for(j in nbnode_gldat)
     {
         dta_conn_gly[1:obs_brnode_n,j] ~ dmulti(pglx[,j], dta_conn_glcolsum[j])
-        dta_conn_gly.exp[1:obs_brnode_n,j] <- pglx[,j]/sum(pglx[,j]) * dta_conn_glcolsum[j] # expected value
+        dta_conn_gly.exp[1:obs_brnode_n,j] <- conn[,j]/sum(conn[,j]) * dta_conn_glcolsum[j] # expected value
 
         for (i in 1:obs_brnode_n){
             pglx[i,j] <- conn[i,j]*dta_conn_gleffort[i]
 
-            dta_conn_gly.rep[i,j] ~ dbinom(pglx[i,j] / sum(pglx[,j]), dta_conn_glcolsum[j]) # random samples, avoid incomplete multinomial
+            dta_conn_gly.rep[i,j] ~ dbinom(conn[i,j] / sum(conn[,j]), dta_conn_glcolsum[j]) # random samples, avoid incomplete multinomial
             FT.obs[i,j] <- pow(pow(dta_conn_gly[i,j], 0.5) - pow(dta_conn_gly.exp[i,j], 0.5), 2) # Freeman-Tukey observed
             FT.rep[i,j] <- pow(pow(dta_conn_gly.rep[i,j], 0.5) - pow(dta_conn_gly.exp[i,j], 0.5), 2) # Freeman-Tukey simulated
 

@@ -171,9 +171,7 @@ run_network_model <- function(abundance, brnode_names, nbnode_names,
     obs_brnode_n <- length(brnode_names)
     obs_nbnode_n <- length(nbnode_names)
 
-    jags.data <- list(brnode_names = brnode_names,
-                      nbnode_names = nbnode_names,
-                      obs_brnode_n=obs_brnode_n,
+    jags.data <- list(obs_brnode_n=obs_brnode_n,
                       obs_nbnode_n=obs_nbnode_n,
                       nbnode_gendat=nbnode_gendat,
                       brnode_gendat=brnode_gendat,

@@ -330,9 +330,9 @@ get_jags_model <- function(base_filename = "jags", model){
         } #j
     } #i
 
-    for (i in brnode_names){
+    for (i in 1:obs_brnode_n){
         dta_conn_full.exp[i,1:obs_nbnode_n] <- conn[i,] * dta_conn_full_rowsum[i] # expected value
-        for (j in nbnode_names){
+        for (j in 1:obs_nbnode_n){
             dta_conn_full.rep[i,j] ~ dbinom(conn[i,j], dta_conn_full_rowsum[i])
             FT.obs[i,j] <- pow(pow(dta_conn_full[i,j], 0.5) - pow(dta_conn_full.exp[i,j], 0.5), 2)
             FT.rep[i,j] <- pow(pow(dta_conn_full.rep[i,j], 0.5) - pow(dta_conn_full.exp[i,j], 0.5), 2)

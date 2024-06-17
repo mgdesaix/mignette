@@ -320,16 +320,24 @@ get_jags_model <- function(base_filename = "jags", model){
 
     for (i in brnode_gendat){
         dta_conn_x[i,1:obs_nbnode_n] ~ dmulti(px[i,], dta_conn_rowsum[i])
-        dta_conn_x.exp[i,1:obs_nbnode_n] <- px[i,]/sum(px[i,]) * dta_conn_rowsum[i] # expected value
+        # dta_conn_x.exp[i,1:obs_nbnode_n] <- px[i,]/sum(px[i,]) * dta_conn_rowsum[i] # expected value
         for (j in 1:obs_nbnode_n){
             px[i,j] <- conn[i,j]*dta_conn_effort[j]
 
-            dta_conn_x.rep[i,j] ~ dbinom(px[i,j] / sum(px[i,]), dta_conn_rowsum[i]) # random samples, avoid incomplete multinomial
-            FT.obs[i,j] <- pow(pow(dta_conn_x[i,j], 0.5) - pow(dta_conn_x.exp[i,j], 0.5), 2)
-            FT.rep[i,j] <- pow(pow(dta_conn_x.rep[i,j], 0.5) - pow(dta_conn_x.exp[i,j], 0.5), 2)
+            # dta_conn_x.rep[i,j] ~ dbinom(px[i,j] / sum(px[i,]), dta_conn_rowsum[i]) # random samples, avoid incomplete multinomial
+            # FT.obs[i,j] <- pow(pow(dta_conn_x[i,j], 0.5) - pow(dta_conn_x.exp[i,j], 0.5), 2)
+            # FT.rep[i,j] <- pow(pow(dta_conn_x.rep[i,j], 0.5) - pow(dta_conn_x.exp[i,j], 0.5), 2)
         } #j
     } #i
 
+    for (i in brnode_names){
+        dta_conn_full.exp[i,1:obs_nbnode_n] <- conn[i,] * dta_conn_full_rowsum[i] # expected value
+        for (j in nbnode_names){
+            dta_conn_full.rep[i,j] ~ dbinom(conn[i,j], dta_conn_full_rowsum[i])
+            FT.obs[i,j] <- pow(pow(dta_conn_full[i,j], 0.5) - pow(dta_conn_full.exp[i,j], 0.5), 2)
+            FT.rep[i,j] <- pow(pow(dta_conn_full.rep[i,j], 0.5) - pow(dta_conn_full.exp[i,j], 0.5), 2)
+        } #j
+    } #i
     fit <- sum(FT.obs[,])
     fit.rep <- sum(FT.rep[,])
     fit.diff <- fit - fit.rep

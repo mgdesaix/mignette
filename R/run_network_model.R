@@ -158,6 +158,9 @@ run_network_model <- function(abundance, brnode_names, nbnode_names,
     colnames(dta_conn_glx) <- nbnode_names
     dta_conn_glx[rownames(dta_conn_glx_temp), colnames(dta_conn_glx_temp)] <- dta_conn_glx_temp
 
+    # get full assignment matrix for GoF testing
+    dta_conn_full <- dta_conn_x + dta_conn_glx
+
     # get node indices
     nbnode_gendat<- which(nbnode_names %in% colnames(dta_conn_x_temp))
     brnode_gendat<- which(brnode_names %in% rownames(dta_conn_x_temp))
@@ -165,10 +168,12 @@ run_network_model <- function(abundance, brnode_names, nbnode_names,
     nbnode_gldat <- which(nbnode_names %in% colnames(dta_conn_glx_temp))
     brnode_gldat <- which(brnode_names %in% rownames(dta_conn_glx_temp))
 
-    obs_brnode_n<-length(brnode_names)
-    obs_nbnode_n<-length(nbnode_names)
+    obs_brnode_n <- length(brnode_names)
+    obs_nbnode_n <- length(nbnode_names)
 
-    jags.data <- list(obs_brnode_n=obs_brnode_n,
+    jags.data <- list(brnode_names = brnode_names,
+                      nbnode_names = nbnode_names,
+                      obs_brnode_n=obs_brnode_n,
                       obs_nbnode_n=obs_nbnode_n,
                       nbnode_gendat=nbnode_gendat,
                       brnode_gendat=brnode_gendat,
@@ -179,6 +184,9 @@ run_network_model <- function(abundance, brnode_names, nbnode_names,
                       dta_conn_y=dta_conn_x,
                       dta_conn_glx=dta_conn_glx,
                       dta_conn_gly=dta_conn_glx,
+                      dta_conn_full=dta_conn_full,
+                      dta_conn_full_colsum=colSums(dta_conn_full),
+                      dta_conn_full_rowsum=rowSums(dta_conn_full),
                       dta_conn_colsum=colSums(dta_conn_x),
                       dta_conn_rowsum=rowSums(dta_conn_x),
                       dta_conn_glcolsum=colSums(dta_conn_glx),

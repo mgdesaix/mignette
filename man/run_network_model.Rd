@@ -15,7 +15,7 @@ run_network_model(
   iter.increment = 5e+05,
   n.thin = 4,
   n.burnin = 1e+05,
-  n.chains = 2,
+  n.chains = 3,
   parallel = FALSE
 )
 }
@@ -26,7 +26,7 @@ run_network_model(
 
 \item{nbnode_names}{Character vector of names of nonbreeding populations/nodes}
 
-\item{model}{Character string of assignment model type ("BR" = encounter nonbreeding/recovery breeding, NB = encounter breeding/recovery nonbreeding, FULL = both types of data provided)}
+\item{model}{Character string of assignment model type ("BR" = encounter nonbreeding/recovery breeding, NB = encounter breeding/recovery nonbreeding, BR-NB = both types of data provided)}
 
 \item{base_filename}{Character string of file name for the model .txt file that will be saved. Model type added as suffix to name.}
 

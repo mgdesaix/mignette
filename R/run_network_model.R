@@ -23,7 +23,7 @@ run_network_model <- function(abundance, brnode_names, nbnode_names,
                           n.burnin = 100000, n.chains = 3, parallel = FALSE){
   stopifnot("`brnode_names` must correspond to values in first column of `abundance` tibble" = brnode_names %in% dplyr::pull(abundance, 1))
   stopifnot("`nbnode_names` must correspond to values in first column of `abundance` tibble" = nbnode_names %in% dplyr::pull(abundance, 1))
-  stopifnot("Not a valid assignment model choice - must be BR, NB, or FULL" = model %in% c("BR", "NB", "BR-NB"))
+  stopifnot("Not a valid assignment model choice - must be BR, NB, or BR-NB" = model %in% c("BR", "NB", "BR-NB"))
 
   if (model == "BR" | model == "BR-NB"){
     stopifnot("No assignment file of nonbreeding to breeding (`nb2br_assign`) provided!" = !is.null(nb2br_assign))

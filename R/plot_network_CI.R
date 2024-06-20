@@ -3,13 +3,13 @@
 #' @param network_model Network model output from mignette::run_network_model()
 #' @param stage Character string "Breeding" or "Nonbreeding" for determining axes
 #' @param stage_colors Optional character vector manually specifying the colors of the nodes in `stage`
-#' @param overlap Logical, indicates whether to label connectivity values that have 95% CIs overlapping with 0
+#' @param zero Logical, indicates whether to label connectivity values that have 95% CIs with posterior mass at 0
 #' @return Returns a ggplot object of the 95% credible intervals of the connectivity estimates
 #' @export
 #'
-plot_network_CI <- function(network_model, stage = "Breeding", stage_colors = NULL, overlap = TRUE){
+plot_network_CI <- function(network_model, stage = "Breeding", stage_colors = NULL, zero = TRUE){
   stopifnot("Not a valid stage choice - must be Breeding or Nonbreeding" = stage %in% c("Breeding", "Nonbreeding"))
-  stopifnot("Not a valid overlap choice - must be TRUE or FALSE" = is.logical(overlap))
+  stopifnot("Not a valid zero choice - must be TRUE or FALSE" = is.logical(zero))
 
   brnode_names <- network_model$brnode_names
   nbnode_names <- network_model$nbnode_names
@@ -20,7 +20,7 @@ plot_network_CI <- function(network_model, stage = "Breeding", stage_colors = NU
                          brnode_names = brnode_names, nbnode_names = nbnode_names)
   q97.5.long <- tidy_conn(conn_mat = network_model$jags_out$q97.5$conn, statistic = "Q97.5",
                           brnode_names = brnode_names, nbnode_names = nbnode_names)
-  overlap.long <- tidy_conn(conn_mat = network_model$jags_out$overlap$conn, statistic = "Overlap",
+  overlap.long <- tidy_conn(conn_mat = network_model$jags_out$overlap$conn, statistic = "Zero",
                             brnode_names = brnode_names, nbnode_names = nbnode_names)
   full.long <- q2.5.long %>%
     dplyr::left_join(mean.long, by = c("Breeding", "Nonbreeding")) %>%
@@ -28,14 +28,14 @@ plot_network_CI <- function(network_model, stage = "Breeding", stage_colors = NU
     dplyr::left_join(overlap.long, by = c("Breeding", "Nonbreeding")) %>%
     dplyr::mutate(Breeding = factor(Breeding, levels = brnode_names),
                   Nonbreeding = factor(Nonbreeding, levels = nbnode_names),
-                  Overlap = as.logical(Overlap))
+                  Zero = as.logical(Zero))
 
   if(stage == "Breeding"){
     p.ci <- full.long %>%
       ggplot2::ggplot(aes(x = Nonbreeding, group = Breeding)) +
       ggplot2::geom_point(aes(y = Mean,
                               color = Breeding,
-                              shape = Overlap),
+                              shape = Zero),
                           position = ggplot2::position_dodge(width = 0.65),
                           size = 3)
   } else {
@@ -43,7 +43,7 @@ plot_network_CI <- function(network_model, stage = "Breeding", stage_colors = NU
       ggplot2::ggplot(aes(x = Breeding, group = Nonbreeding)) +
       ggplot2::geom_point(aes(y = Mean,
                               color = Nonbreeding,
-                              shape = Overlap),
+                              shape = Zero),
                           position = ggplot2::position_dodge(width = 0.65),
                           size = 3)
   }
@@ -61,7 +61,7 @@ plot_network_CI <- function(network_model, stage = "Breeding", stage_colors = NU
     p.ci <- p.ci + scale_color_manual(values = stage_colors)
   }
 
-  if(overlap == FALSE){
+  if(zero == FALSE){
     p.ci <- p.ci + scale_shape_manual(values = c(16, 16)) + guides(shape = "none")
   }
 

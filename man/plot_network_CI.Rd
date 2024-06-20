@@ -8,7 +8,7 @@ plot_network_CI(
   network_model,
   stage = "Breeding",
   stage_colors = NULL,
-  overlap = TRUE
+  zero = TRUE
 )
 }
 \arguments{
@@ -18,7 +18,7 @@ plot_network_CI(
 
 \item{stage_colors}{Optional character vector manually specifying the colors of the nodes in \code{stage}}
 
-\item{overlap}{Logical, indicates whether to label connectivity values that have 95\% CIs overlapping with 0}
+\item{zero}{Logical, indicates whether to label connectivity values that have 95\% CIs with posterior mass at 0}
 }
 \value{
 Returns a ggplot object of the 95\% credible intervals of the connectivity estimates

@@ -1,6 +1,6 @@
 Package: mignette
 Title: MIGratory NETwork Tools Ensemble
-Version: 0.0.0.9000
+Version: 1.1.0
 Authors@R: 
     person(given = "Matt",
            family = "DeSaix",

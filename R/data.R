@@ -34,6 +34,23 @@
 #' }
 "amre_nonbreeding_data"
 
+#' Assignment probabilities for the American Redstart nonbreeding data
+#'
+#' The tibble provides assignment probabilities the individuals sampled from the nonbreeding range.
+#' Assignment probabilities are provided from the DeSaix et al., 2023 dataset using the assignment consistency.
+#'
+#' @format A tibble with 131 rows, 7 columns:
+#' \describe{
+#'   \item{Sample}{Individual identifier}
+#'   \item{WB}{Western Boreal assignment probability}
+#'   \item{BR}{Basin Rockies assignment probability}
+#'   \item{NT}{Northern Temperate assignment probability}
+#'   \item{ST}{Southern Temperate assignment probability}
+#'   \item{MP}{Maritime Provinces assignment probability}
+#'   \item{Nonbreeding_region}{Conservation region of the sampling site}
+#' }
+"amre_nonbreeding_consistency"
+
 #' American Redstart assignment data
 #'
 #' The tibble provides the number of assigned individuals from five nonbreeding ecoregions to the five breeding populations.

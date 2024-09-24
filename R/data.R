@@ -23,10 +23,11 @@
 #' The tibble provides metadata for all of the individuals sampled from the nonbreeding range.
 #' Each individual has a unique identifier, location data, nonbreeding sampling coordinates, and breeding population assignment from the WGSassign software
 #'
-#' @format A tibble with 135 rows, 5 columns:
+#' @format A tibble with 131 rows, 6 columns:
 #' \describe{
 #'   \item{Sample}{Individual identifier}
 #'   \item{Site}{Nonbreeding sampling site}
+#'   \item{Nonbreeding_region}{Conservation region of the sampling site}
 #'   \item{Lat}{Latitude of nonbreeding site}
 #'   \item{Long}{Longitude of nonbreeding site}
 #'   \item{Breeding_assignment}{Breeding population the sample was assigned to}

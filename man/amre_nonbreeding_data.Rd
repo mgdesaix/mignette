@@ -5,10 +5,11 @@
 \alias{amre_nonbreeding_data}
 \title{Metadata for the American Redstart samples from the stationary nonbreeding range}
 \format{
-A tibble with 135 rows, 5 columns:
+A tibble with 131 rows, 6 columns:
 \describe{
 \item{Sample}{Individual identifier}
 \item{Site}{Nonbreeding sampling site}
+\item{Nonbreeding_region}{Conservation region of the sampling site}
 \item{Lat}{Latitude of nonbreeding site}
 \item{Long}{Longitude of nonbreeding site}
 \item{Breeding_assignment}{Breeding population the sample was assigned to}

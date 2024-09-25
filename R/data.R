@@ -23,13 +23,13 @@
 #' The tibble provides metadata for all of the individuals sampled from the nonbreeding range.
 #' Each individual has a unique identifier, location data, nonbreeding sampling coordinates, and breeding population assignment from the WGSassign software
 #'
-#' @format A tibble with 131 rows, 6 columns:
+#' @format A tibble with 135 rows, 6 columns:
 #' \describe{
 #'   \item{Sample}{Individual identifier}
 #'   \item{Site}{Nonbreeding sampling site}
 #'   \item{Nonbreeding_region}{Conservation region of the sampling site}
 #'   \item{Lat}{Latitude of nonbreeding site}
-#'   \item{Long}{Longitude of nonbreeding site}
+#'   \item{Lon}{Longitude of nonbreeding site}
 #'   \item{Breeding_assignment}{Breeding population the sample was assigned to}
 #' }
 "amre_nonbreeding_data"
@@ -39,7 +39,7 @@
 #' The tibble provides assignment probabilities the individuals sampled from the nonbreeding range.
 #' Assignment probabilities are provided from the DeSaix et al., 2023 dataset using the assignment consistency.
 #'
-#' @format A tibble with 131 rows, 7 columns:
+#' @format A tibble with 135 rows, 7 columns:
 #' \describe{
 #'   \item{Sample}{Individual identifier}
 #'   \item{WB}{Western Boreal assignment probability}
@@ -81,8 +81,9 @@
 #'
 #' The matrix provides the connectivity output from the JAGS model with `amre_assign` and `amre_abundance` data
 #'
-#' @format A matrix with 5 rows, 5 columns:
+#' @format A matrix with 5 rows, 6 columns:
 #' \describe{
+#'   \item{Breeding}{Breeding population}
 #'   \item{ALM}{Connectivity of nonbreeding population ALM with the breeding populations}
 #'   \item{LCA}{Connectivity of nonbreeding population LCA with the breeding populations}
 #'   \item{HCA}{Connectivity of nonbreeding population HCA with the breeding populations}

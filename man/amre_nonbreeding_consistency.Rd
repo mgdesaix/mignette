@@ -5,7 +5,7 @@
 \alias{amre_nonbreeding_consistency}
 \title{Assignment probabilities for the American Redstart nonbreeding data}
 \format{
-A tibble with 131 rows, 7 columns:
+A tibble with 135 rows, 7 columns:
 \describe{
 \item{Sample}{Individual identifier}
 \item{WB}{Western Boreal assignment probability}

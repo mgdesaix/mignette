@@ -5,8 +5,9 @@
 \alias{amre_conn}
 \title{American Redstart connectivity}
 \format{
-A matrix with 5 rows, 5 columns:
+A matrix with 5 rows, 6 columns:
 \describe{
+\item{Breeding}{Breeding population}
 \item{ALM}{Connectivity of nonbreeding population ALM with the breeding populations}
 \item{LCA}{Connectivity of nonbreeding population LCA with the breeding populations}
 \item{HCA}{Connectivity of nonbreeding population HCA with the breeding populations}
